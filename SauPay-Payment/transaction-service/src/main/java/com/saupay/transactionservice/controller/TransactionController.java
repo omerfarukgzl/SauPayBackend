@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("v1/transaction")
+@RequestMapping("/v1/transaction")
 public class TransactionController {
 
     private final TransactionService transactionService;

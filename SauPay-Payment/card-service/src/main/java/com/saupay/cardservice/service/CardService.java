@@ -46,7 +46,7 @@ public class CardService {
         }
     }
 
-    public List<CardDto> findCardByUserId(String userId){
+    public List<CardDto> findCardsByUserId(String userId){
         try {
             return cardRepository.findByUserId(userId).
                     stream().

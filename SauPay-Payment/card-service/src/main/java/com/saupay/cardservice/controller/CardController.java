@@ -39,9 +39,9 @@ public class CardController {
         return ResponseEntity.ok(cardDto);
     }
 
-    @GetMapping("/getCardByUserId/{userId}")
-    public ResponseEntity <List<CardDto>> getCardByUserId(@PathVariable String userId){
-        List<CardDto> cardDto=cardService.findCardByUserId(userId);
+    @GetMapping("/getCardsByUserId/{userId}")
+    public ResponseEntity <List<CardDto>> getCardsByUserId(@PathVariable String userId){
+        List<CardDto> cardDto=cardService.findCardsByUserId(userId);
         return ResponseEntity.ok(cardDto);
     }
 

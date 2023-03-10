@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("v1/bank")
+@RequestMapping("/v1/bank")
 public class BankController {
 
     private final BankService bankService;
