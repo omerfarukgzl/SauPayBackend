@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Payment/Payment.iml" filepath="$PROJECT_DIR$/Payment/Payment.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/SauPay.iml" filepath="$PROJECT_DIR$/.idea/SauPay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/api-gateway/api-gateway.iml" filepath="$PROJECT_DIR$/api-gateway/api-gateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/card-service/card-service.iml" filepath="$PROJECT_DIR$/card-service/card-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/domain-service/domain-service.iml" filepath="$PROJECT_DIR$/domain-service/domain-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server.iml" />

@@ -12,6 +12,7 @@
         <module name="Payment" />
         <module name="register-service" />
         <module name="payment-service" />
+        <module name="api-gateway" />
         <module name="transaction-service" />
         <module name="card-service" />
         <module name="user-service" />
@@ -20,6 +21,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="account-service" target="17" />
+      <module name="api-gateway" target="17" />
       <module name="card-service" target="17" />
       <module name="customer-service" target="17" />
       <module name="domain-service" target="17" />
@@ -36,6 +38,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Payment" options="-parameters" />
       <module name="account-service" options="-parameters" />
+      <module name="api-gateway" options="-parameters" />
       <module name="card-service" options="-parameters" />
       <module name="customer-service" options="-parameters" />
       <module name="domain-service" options="-parameters" />
