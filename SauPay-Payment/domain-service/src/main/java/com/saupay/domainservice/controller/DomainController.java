@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/v1/domain")
+@RestController
+@RequestMapping("/v1/saupay")
 public class DomainController {
 
     private final DomainService domainService;
@@ -25,5 +25,9 @@ public class DomainController {
     @GetMapping("/getcards_user/{userId}")
     ResponseEntity<List<CardDto>> getCardsUser(@PathVariable(value = "userId") String userId){
         return ResponseEntity.ok(domainService.getCardsUser(userId));
+    }
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello World";
     }
 }

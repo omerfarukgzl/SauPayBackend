@@ -1,3 +1,13 @@
+
+
+app:
+  config:
+    keycloak:
+      url: http://localhost:8180
+      realm: saupayment
+
+
+
 spring:
   application:
     name: gateway-service
@@ -11,28 +21,54 @@ spring:
           uri: lb://domain-service
           predicates:
             - Path=/v1/saupay/**
+      filters:
+        - StripPrefix=1
+
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            token-uri: ${app.config.keycloak.url}/realms/${app.config.keycloak.realm}/protocol/openid-connect/token
+            authorization-uri: ${app.config.keycloak.url}/realms/${app.config.keycloak.realm}/protocol/openid-connect/auth
+            user-name-attribute: preferred_username
+            user-info-uri: ${app.config.keycloak.url}/realms/${app.config.keycloak.realm}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${app.config.keycloak.url}/realms/${app.config.keycloak.realm}/protocol/openid-connect/certs
+            user-info-authentication-method: header
+        registration:
+          internet-banking-core-client:
+            provider: keycloak
+            client-id: saupay
+            client-secret: hrxlVD8J9Rsyu7pWVhCgrxIKT8vKXNF3
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8888/login/oauth2/code/keycloak
+            scope: openid
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${app.config.keycloak.url}/realms/${app.config.keycloak.realm}/protocol/openid-connect/certs
 
 
-#uri : lb://domain-service --> lb : load balancer .. yazmasaydık tek bir instance üzerinden çalışırdı.
-#tüm istekleri domain-service'e yönlendirir
-#V1/saupay/** altındaki tüm istekleri domain-service'e yönlendirir
-#id: name
-#uri:bağlanılacak servisin app name 'i        -
-#predicates: hangi controller lar kullanılacak
+    #uri : lb://domain-service --> lb : load balancer .. yazmasaydık tek bir instance üzerinden çalışırdı.
+    #tüm istekleri domain-service'e yönlendirir
+    #V1/saupay/** altındaki tüm istekleri domain-service'e yönlendirir
+    #id: name
+    #uri:bağlanılacak servisin app name 'i        -
+    #predicates: hangi controller lar kullanılacak
 
-  #zipkin:
-   # base-url: http://localhost:9411
+    #zipkin:
+    # base-url: http://localhost:9411
 
 server:
   port: 8888
 
 eureka:
-    client:
-        serviceUrl:
-            registerWithEureka: true
-            defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-    instance:
-        preferIpAddress: true
+  client:
+    serviceUrl:
+      registerWithEureka: true
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+    #ip ile register olur. dns ile register olmaz.
 
 
 manangment:
@@ -41,6 +77,5 @@ manangment:
       exposure:
         include: "*"
 #bu kod ile tüm endpointleri açtık.
-
 
 
