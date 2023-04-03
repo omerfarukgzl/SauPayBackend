@@ -15,7 +15,9 @@ public class SecurityConfig{
         http
                 .authorizeExchange()
                 //ALLOWING REGISTER API FOR DIRECT ACCESS
-                .pathMatchers("/user/api/v1/register").permitAll()
+                .pathMatchers("/v1/user/login").permitAll()
+                .pathMatchers("/v1/user/register").permitAll()
+                .pathMatchers("/v1/user/hello").permitAll()
                 //ALL OTHER APIS ARE AUTHENTICATED
                 .anyExchange().authenticated()
                 .and()

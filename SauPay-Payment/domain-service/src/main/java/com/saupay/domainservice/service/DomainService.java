@@ -2,6 +2,8 @@ package com.saupay.domainservice.service;
 
 import com.saupay.domainservice.clients.card_client.CardDto;
 import com.saupay.domainservice.clients.card_client.CardServiceClient;
+import com.saupay.domainservice.clients.user_client.UserDto;
+import com.saupay.domainservice.clients.user_client.UserServiceClient;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,9 +14,11 @@ import java.util.stream.Collectors;
 public class DomainService {
 
     private final CardServiceClient cardServiceClient;
+    private final UserServiceClient userServiceClient;
 
-    public DomainService(CardServiceClient cardServiceClient) {
+    public DomainService(CardServiceClient cardServiceClient, UserServiceClient userServiceClient) {
         this.cardServiceClient = cardServiceClient;
+        this.userServiceClient = userServiceClient;
     }
 
     public List<CardDto> getCardsUser(String userId){
@@ -26,6 +30,10 @@ public class DomainService {
                         .collect(Collectors.toList()));
 
         return cardDtoList;
+    }
+
+    public UserDto getUser(String userId){
+        return userServiceClient.getUser(userId).getBody();
     }
 
 

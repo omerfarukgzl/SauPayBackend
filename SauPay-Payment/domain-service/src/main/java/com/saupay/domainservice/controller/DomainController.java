@@ -1,6 +1,7 @@
 package com.saupay.domainservice.controller;
 
 import com.saupay.domainservice.clients.card_client.CardDto;
+import com.saupay.domainservice.clients.user_client.UserDto;
 import com.saupay.domainservice.service.DomainService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,8 +27,8 @@ public class DomainController {
     ResponseEntity<List<CardDto>> getCardsUser(@PathVariable(value = "userId") String userId){
         return ResponseEntity.ok(domainService.getCardsUser(userId));
     }
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello World";
+    @GetMapping("/getUser/{userId}")
+    ResponseEntity<UserDto> getUserInfo(@PathVariable(value = "userId") String userId){
+        return ResponseEntity.ok(domainService.getUser(userId));
     }
 }

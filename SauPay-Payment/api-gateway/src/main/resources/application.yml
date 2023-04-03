@@ -21,6 +21,11 @@ spring:
           uri: lb://domain-service
           predicates:
             - Path=/v1/saupay/**
+
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/v1/user/**
       filters:
         - StripPrefix=1
 

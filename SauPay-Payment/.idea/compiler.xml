@@ -7,10 +7,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="login-service" />
         <module name="domain-service" />
         <module name="Payment" />
-        <module name="register-service" />
         <module name="payment-service" />
         <module name="api-gateway" />
         <module name="transaction-service" />
