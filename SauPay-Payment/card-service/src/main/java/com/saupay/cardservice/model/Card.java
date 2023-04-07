@@ -28,11 +28,15 @@ public class Card {
 
     private String userId;
 
+    private String bankId;
+
+/*
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="bank_id", nullable=false)// foreign key
     private Bank bank;
+*/
 
-    public Card(String cardNumber, String binNumber, String cardHolderName, String cardCvv, String cardExpireDate, String cardType, String userId, Bank bank) {
+    public Card(String cardNumber, String binNumber, String cardHolderName, String cardCvv, String cardExpireDate, String cardType, String userId, String bankId) {
         this.cardNumber = cardNumber;
         this.binNumber = binNumber;
         this.cardHolderName = cardHolderName;
@@ -40,7 +44,7 @@ public class Card {
         this.cardExpireDate = cardExpireDate;
         this.cardType = cardType;
         this.userId = userId;
-        this.bank = bank;
+        this.bankId = bankId;
         //this.card_accounts = card_accounts;
     }
 

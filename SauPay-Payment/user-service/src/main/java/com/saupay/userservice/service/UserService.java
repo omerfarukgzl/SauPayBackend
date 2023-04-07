@@ -39,7 +39,7 @@ public class UserService {
         if (userRepresentations.size() > 0) {
             throw new RuntimeException("This email already registered as a user. Please check and retry.");
         }
-        userRepository.findByEmail(userRequest.getUserEmail()).ifPresent(user -> {
+        userRepository.findByUserEmail(userRequest.getUserEmail()).ifPresent(user -> {
             throw new RuntimeException("This email already registered as a user. Please check and retry.");
         });
 

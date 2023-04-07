@@ -25,7 +25,7 @@ public class CardDtoConverter {
                 from.getCardExpireDate(),
                 from.getCardType(),
                 from.getUserId(),
-                bankDtoConverter.convert(from.getBank()));
+                from.getBankId());
     }
 
 

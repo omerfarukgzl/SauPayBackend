@@ -25,12 +25,12 @@ public class Bank {
     public Bank(String bankName, Integer bankCode, Set<Card> cards) {
         this.bankName = bankName;
         this.bankCode = bankCode;
-        this.cards = cards;
+        //this.cards = cards;
 
     }
 
-    @OneToMany(mappedBy = "bank",fetch = FetchType.EAGER, cascade = CascadeType.ALL) // ==> mappedBy="account" : account nesnesi Transaction nesnesindeki account nesnesine karşılık gelir.
-    private Set<Card> cards  = new HashSet<>() ;
+/*    @OneToMany(mappedBy = "bank",fetch = FetchType.EAGER, cascade = CascadeType.ALL) // ==> mappedBy="account" : account nesnesi Transaction nesnesindeki account nesnesine karşılık gelir.
+    private Set<Card> cards  = new HashSet<>() ;*/
 
 
 

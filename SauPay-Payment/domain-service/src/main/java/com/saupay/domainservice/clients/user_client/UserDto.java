@@ -8,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class UserDto {
-// yanlıza customer ve hesabı listeleniyor
     private String id;
     private String customerName;
     private String customerSurname;

@@ -16,7 +16,7 @@ public class CardDto {
     private String cardExpireDate;
     private String cardType;
     private String userId;
-    private BankDto bankDto;
+    private String bankId;
 
 
 

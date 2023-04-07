@@ -25,8 +25,8 @@ public class CardService {
 
     public CardDto createCard(String userId, String bankId) {
         //Account account = accountService.findAccount(id);
-        Bank bank = bankService.getBank(bankId);
-        Card card = new Card("123456789","1234","1234","1234","1234","1234",userId,bank);
+        String bank_id = bankService.getBank(bankId);
+        Card card = new Card("123456789","1234","1234","1234","1234","1234",userId,bank_id);
         return cardDtoConverter.convert(cardRepository.save(card));
     }
 

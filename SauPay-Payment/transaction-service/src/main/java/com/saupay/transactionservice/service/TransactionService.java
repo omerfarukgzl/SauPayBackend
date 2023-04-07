@@ -26,17 +26,17 @@ public class TransactionService {
         Transaction transaction = new Transaction(new BigDecimal(100.00), LocalDateTime.now(),cardId,merchantId);
         return transactionDtoConverter.convert(transactionRepository.save(transaction));
     }
-    public TransactionDto findTransaction(String id){
+    public TransactionDto getTransaction(String id){
         return transactionDtoConverter.convert(transactionRepository.findById(id).get());
     }
-    public List<TransactionDto> findAllTransaction(){
+    public List<TransactionDto> getAllTransaction(){
         return transactionRepository.findAll().
                 stream().
                 map(transactionDtoConverter::convert).
                 collect(Collectors.toList());
     }
 
-    public List<TransactionDto> findTransactionByCardId(String cardId){
+    public List<TransactionDto> getTransactionByCardId(String cardId){
         return transactionRepository.findByCardId(cardId).
                 stream().
                 map(transactionDtoConverter::convert).

@@ -23,8 +23,8 @@ public class BankService {
             Bank bank = new Bank(name,code,new HashSet<>());
             return bankDtoConverter.convert(bankRepository.save(bank));
         }
-        public Bank getBank(String id) {
-            Bank bank = bankRepository.findById(id).orElseThrow(() -> new RuntimeException("Bank not found"));
-            return bank;
+        public String getBank(String id) {
+            String bankId = bankRepository.findById(id).orElseThrow(() -> new RuntimeException("Bank not found")).getId();
+            return bankId;
         }
 }
