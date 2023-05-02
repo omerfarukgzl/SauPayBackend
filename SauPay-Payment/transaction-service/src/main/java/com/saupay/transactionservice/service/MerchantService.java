@@ -1,9 +1,9 @@
-package com.saupay.userservice.service;
+package com.saupay.transactionservice.service;
 
-import com.saupay.userservice.dto.MerchantDto;
-import com.saupay.userservice.dto.converter.MerchantDtoConverter;
-import com.saupay.userservice.model.Merchant;
-import com.saupay.userservice.repository.MerchantRepository;
+import com.saupay.transactionservice.dto.MerchantDto;
+import com.saupay.transactionservice.dto.converter.MerchantDtoConverter;
+import com.saupay.transactionservice.model.Merchant;
+import com.saupay.transactionservice.repository.MerchantRepository;
 import org.springframework.stereotype.Service;
 
 @Service

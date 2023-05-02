@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 public class TransactionDto {
     private String id;
-    private BigDecimal amaount;
+    private BigDecimal amount;
     private LocalDateTime localDateTime;
 
 }

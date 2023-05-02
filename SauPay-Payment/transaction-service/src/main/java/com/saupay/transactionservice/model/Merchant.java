@@ -1,4 +1,4 @@
-package com.saupay.userservice.model;
+package com.saupay.transactionservice.model;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -16,6 +16,8 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
+
 public class Merchant {
     @Id
     @GeneratedValue(generator = "UUID")

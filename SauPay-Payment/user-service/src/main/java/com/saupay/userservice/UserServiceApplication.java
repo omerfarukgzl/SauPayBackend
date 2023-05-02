@@ -26,6 +26,6 @@ public class UserServiceApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		userRepository.save(new User("", "omer","faruk","omer@gmail.com","5355455454","54545454544","5454", LocalDateTime.now()));
+		//userRepository.save(new User("", "omer","faruk","omer@gmail.com","5355455454","54545454544","5454", LocalDateTime.now()));
 	}
 }

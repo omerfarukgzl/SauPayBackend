@@ -1,4 +1,4 @@
-package com.saupay.userservice.dto;
+package com.saupay.transactionservice.dto;
 
 import lombok.*;
 

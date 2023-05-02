@@ -21,5 +21,8 @@ public interface TransactionServiceClient {
     ResponseEntity <List<TransactionDto>> getTransactionAll();
 
     @GetMapping("/getTransactionByCardId/{cardId}")
-    ResponseEntity <List<TransactionDto>> getTransactionByCardId(@PathVariable String cardId);
+    ResponseEntity <TransactionsDto> getTransactionByCardId(@PathVariable String cardId);
+
+    @GetMapping("/getTransactionMerchantByCardId/{cardId}")
+    ResponseEntity <List<Transaction_MerchantDto>> getTransactionMerchantByCardId(@PathVariable String cardId);
 }

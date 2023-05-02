@@ -1,6 +1,8 @@
 package com.saupay.transactionservice.controller;
 
 import com.saupay.transactionservice.dto.TransactionDto;
+import com.saupay.transactionservice.dto.Transaction_MerchantDto;
+import com.saupay.transactionservice.dto.TransactionsDto;
 import com.saupay.transactionservice.service.TransactionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,8 +32,12 @@ public class TransactionController {
         return ResponseEntity.ok(transactionService.getAllTransaction());
     }
     @GetMapping("/getTransactionByCardId/{cardId}")
-    public ResponseEntity <List<TransactionDto>> getTransactionByCardId(@PathVariable String cardId){
+    public ResponseEntity <TransactionsDto> getTransactionByCardId(@PathVariable String cardId){
         return ResponseEntity.ok(transactionService.getTransactionByCardId(cardId));
+    }
+    @GetMapping("/getTransactionMerchantByCardId/{cardId}")
+    public ResponseEntity <List<Transaction_MerchantDto>> getTransactionMerchantByCardId(@PathVariable String cardId){
+        return ResponseEntity.ok(transactionService.getTransactionMerchantByCardId(cardId));
     }
 
 

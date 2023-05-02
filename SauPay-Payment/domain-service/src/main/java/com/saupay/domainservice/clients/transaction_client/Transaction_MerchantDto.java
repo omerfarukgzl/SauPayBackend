@@ -1,4 +1,4 @@
-package com.saupay.transactionservice.dto;
+package com.saupay.domainservice.clients.transaction_client;
 
 import lombok.*;
 
@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TransactionDto {
-    private String id;
-    private BigDecimal amount;
+public class Transaction_MerchantDto {
+    private String merchantName;
+    private BigDecimal amaount;
     private LocalDateTime localDateTime;
 
 }

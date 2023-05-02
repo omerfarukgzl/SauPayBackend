@@ -11,7 +11,7 @@ public class TransactionDtoConverter {
     public TransactionDto convert(Transaction from) {
         return new TransactionDto(
                 from.getId(),
-                from.getAmaount(),
+                from.getAmount(),
                 from.getLocalDateTime()
 
         );

@@ -10,8 +10,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TransactionDto {
-    private String id;
+
+public class Transaction_MerchantDto {
+    private String merchantName;
     private BigDecimal amount;
     private LocalDateTime localDateTime;
 

@@ -38,8 +38,8 @@ public class UserController {
 
     @GetMapping("/getUser/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable String id){
-        UserDto userDto =userService.getUser(id);
-        return ResponseEntity.ok(userDto);
+        UserDto user =userService.getUser(id);
+        return ResponseEntity.ok(user);
     }
 
 

@@ -1,6 +1,6 @@
-package com.saupay.userservice.repository;
+package com.saupay.transactionservice.repository;
 
-import com.saupay.userservice.model.Merchant;
+import com.saupay.transactionservice.model.Merchant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

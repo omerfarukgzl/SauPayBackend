@@ -1,7 +1,7 @@
-package com.saupay.userservice.controller;
+package com.saupay.transactionservice.controller;
 
-import com.saupay.userservice.dto.MerchantDto;
-import com.saupay.userservice.service.MerchantService;
+import com.saupay.transactionservice.dto.MerchantDto;
+import com.saupay.transactionservice.service.MerchantService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -26,7 +26,7 @@ public class Transaction {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     private String id;
-    private BigDecimal amaount;
+    private BigDecimal amount;
     private LocalDateTime localDateTime;
     private String cardId;
     private String merchantId;
@@ -51,10 +51,10 @@ public class Transaction {
     private CommerceCompany commerceCompany;
 */
 
-    public Transaction(BigDecimal amaount,LocalDateTime localDateTime,String cardId,String merchantId)
+    public Transaction(BigDecimal amount,LocalDateTime localDateTime,String cardId,String merchantId)
     {
         this.id = "";
-        this.amaount=amaount;
+        this.amount=amount;
         this.localDateTime=localDateTime;
         this.cardId=cardId;
         this.merchantId=merchantId;
