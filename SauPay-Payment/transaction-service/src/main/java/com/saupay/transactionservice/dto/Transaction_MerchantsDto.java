@@ -8,6 +8,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransactionsDto {
-    private List<TransactionDto> transactions;
+public class Transaction_MerchantsDto {
+    private List<Transaction_MerchantDto> transactions;
+
 }

@@ -31,6 +31,8 @@ public class Transaction {
     private String cardId;
     private String merchantId;
 
+    private String token;
+
 
     //Lazy yükleme
     /*Bir üniversitede çok sayıda öğrenci varken, özellikle ihtiyaç olmadığında tüm öğrencilerini birlikte yüklemek verimli değildir
@@ -51,15 +53,16 @@ public class Transaction {
     private CommerceCompany commerceCompany;
 */
 
-    public Transaction(BigDecimal amount,LocalDateTime localDateTime,String cardId,String merchantId)
+    public Transaction(BigDecimal amount,LocalDateTime localDateTime,String cardId,String merchantId,String token)
     {
         this.id = "";
         this.amount=amount;
         this.localDateTime=localDateTime;
         this.cardId=cardId;
         this.merchantId=merchantId;
-
+        this.token=token;
     }
+
 
     //!!!!!
     // Bir entity nesnesi  private Set<Transaction> transactions  = new HashSet<>() ; şeklinde bir set içerisinde tutuluyorsa
