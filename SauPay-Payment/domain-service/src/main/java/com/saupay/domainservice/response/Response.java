@@ -9,12 +9,11 @@ import lombok.Setter;
 public class Response<T> {
         @JsonUnwrapped
         private T data;
-        private boolean success = true;
-        private String errorDescription;
-        private String errorCode;
+        private Status status;
 
         public Response(T data) {
             this.data = data;
+            this.status = new Status(true, null, null);
         }
 
 }

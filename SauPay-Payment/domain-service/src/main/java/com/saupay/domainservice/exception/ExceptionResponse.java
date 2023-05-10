@@ -1,20 +1,19 @@
 package com.saupay.domainservice.exception;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.saupay.domainservice.response.Status;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class ExceptionResponse <T> {
-    @JsonUnwrapped
+    //@JsonUnwrapped
     private T data;
-    private boolean success = false;
-    private String errorDescription;
-    private String errorCode;
+    private Status status;
 
-    public ExceptionResponse(T data) {
+    public ExceptionResponse(T data,Boolean success, String errorCode, String errorDescription) {
         this.data= data;
+        this.status = new Status(success,errorCode,errorDescription);
     }
 
 }
