@@ -44,7 +44,7 @@ public class DomainService {
 
         TransactionsDto transactionsDto= transactionServiceClient.getTransactionByCardId(cardId).getBody();
         if(transactionsDto.getTransactions().isEmpty()){
-            throw  new GeneralException(transactionsDto,"404","There is no transaction for this card");
+            throw  new GeneralException("There is no transaction for this card","404");
         }
         return transactionsDto;
     }
@@ -53,7 +53,7 @@ public class DomainService {
 
         Transaction_MerchantsDto transaction_merchantDto= transactionServiceClient.getTransactionMerchantByCardId(cardId).getBody();
         if(transaction_merchantDto.getTransactions().isEmpty()){
-            throw  new GeneralException(transaction_merchantDto,"404","There is no transaction for this card");
+            throw  new GeneralException("There is no transaction for this card","404");
         }
         return transaction_merchantDto;
     }
@@ -65,7 +65,7 @@ public class DomainService {
 
         List<CardDto> cardDtoList = getCardsUser(userId);
         if (cardDtoList.isEmpty()){
-            throw  new GeneralException(transactions,"401","There is no card for this user");
+            throw  new GeneralException("There is no card for this user","404");
         }
 
 
@@ -73,7 +73,7 @@ public class DomainService {
             transactions.getTransactions().addAll(getTransactionByCardId(cardDto.getId()).getTransactions());
         }
         if(transactions.getTransactions().isEmpty()){
-            throw  new GeneralException(transactions,"404","There is no transaction for this user");
+            throw  new GeneralException("There is no transaction for this user","404");
         }
 
         return transactions;
@@ -85,14 +85,14 @@ public class DomainService {
 
         List<CardDto> cardDtoList = getCardsUser(userId);
         if (cardDtoList.isEmpty()){
-            throw new GeneralException(transactions,"400","There is no card for this user");
+            throw new GeneralException("There is no card for this user","400");
         }
 
         for (CardDto cardDto : cardDtoList) {
             transactions.getTransactions().addAll(getTransactionMerchantByCardId(cardDto.getId()).getTransactions());
         }
         if(transactions.getTransactions().isEmpty()){
-            throw  new GeneralException(transactions,"404","There is no transaction for this user");
+            throw  new GeneralException("There is no transaction for this user","404");
         }
 
         return transactions;

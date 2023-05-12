@@ -52,7 +52,7 @@ public class TransactionService {
 
 
         if (transaction.isEmpty()){
-            throw new TransacitonNotFoundException(transaction,"4000","Transaction not found");
+            throw new TransacitonNotFoundException("Transaction not found","4000");
         }
 
         return transactionsDtoConverter.convert(transaction.

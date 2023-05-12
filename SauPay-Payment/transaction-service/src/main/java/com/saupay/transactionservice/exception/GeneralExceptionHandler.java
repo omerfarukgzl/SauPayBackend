@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GeneralExceptionHandler  {
     @ExceptionHandler(TransacitonNotFoundException.class)//bu annotation ile bu method herhangi bir exception firlatirsa bu method calisir
     public ExceptionResponse<?> handleTransactionNotFoundException(TransacitonNotFoundException exception){
-        return new ExceptionResponse<>(exception.getData(), exception.getErrorCode(),exception.getErrorDescription());
+        return new ExceptionResponse<>(exception.getErrorCode(),exception.getErrorDescription());
     }
 }

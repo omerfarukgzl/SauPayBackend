@@ -11,8 +11,8 @@ public class GeneralExceptionHandler  {
     @ExceptionHandler(GeneralException.class)//bu annotation ile bu method herhangi bir exception firlatirsa bu method calisir
     public ResponseEntity<?> handleTransactionNotFoundException(GeneralException exception){
 
-        ExceptionResponse<?> exceptionResponse = new ExceptionResponse<>(exception.getData(),false,exception.getErrorCode(),exception.getErrorDescription());
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+        ExceptionResponse<?> exceptionResponse = new ExceptionResponse<>(false,exception.getErrorCode(),exception.getErrorDescription());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.UNPROCESSABLE_ENTITY);// 422 status code
     }
 
  /*   @ExceptionHandler(GeneralException.class)//bu annotation ile bu method herhangi bir exception firlatirsa bu method calisir

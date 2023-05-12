@@ -1,6 +1,7 @@
 package com.saupay.domainservice.exception;
 
 import com.saupay.domainservice.response.Status;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,11 +9,10 @@ import lombok.Setter;
 @Setter
 public class ExceptionResponse <T> {
     //@JsonUnwrapped
-    private T data;
+/*    private T data;*/
     private Status status;
 
-    public ExceptionResponse(T data,Boolean success, String errorCode, String errorDescription) {
-        this.data= data;
+    public ExceptionResponse( Boolean success, String errorCode, String errorDescription) {
         this.status = new Status(success,errorCode,errorDescription);
     }
 

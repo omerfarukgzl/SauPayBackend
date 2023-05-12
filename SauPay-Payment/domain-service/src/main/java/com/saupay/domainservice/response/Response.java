@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Response<T> {
-        @JsonUnwrapped
+       /* @JsonUnwrapped*/
         private T data;
         private Status status;
 

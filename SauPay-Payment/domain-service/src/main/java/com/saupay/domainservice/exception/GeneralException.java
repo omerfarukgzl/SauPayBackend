@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class GeneralException extends RuntimeException{
-    private Object data;
     private String errorCode;
     private String errorDescription;
 

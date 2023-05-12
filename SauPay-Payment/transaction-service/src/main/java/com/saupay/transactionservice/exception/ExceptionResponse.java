@@ -8,14 +8,11 @@ import lombok.Setter;
 @Setter
 public class ExceptionResponse <T> {
 
-    @JsonUnwrapped
-    private T data;
     private boolean success = false;
     private String errorDescription;
     private String errorCode;
 
-    public ExceptionResponse(T data,String errorCode, String errorDescription) {
-        this.data= data;
+    public ExceptionResponse(String errorCode, String errorDescription) {
         this.errorCode = errorCode;
         this.errorDescription = errorDescription;
     }
