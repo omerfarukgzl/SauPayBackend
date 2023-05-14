@@ -19,6 +19,7 @@ public class SecurityConfig{
                 .pathMatchers("/v1/user/register").permitAll()
                 .pathMatchers("/v1/user/hello").permitAll()
                 .pathMatchers("/v1/saupay/**").permitAll()
+                .pathMatchers("/v1/transaction/**").permitAll()
                 //ALL OTHER APIS ARE AUTHENTICATED
                 .anyExchange().authenticated()
                 .and()

@@ -9,12 +9,15 @@ import com.saupay.transactionservice.dto.converter.TransactionsDtoConverter;
 import com.saupay.transactionservice.exception.TransacitonNotFoundException;
 import com.saupay.transactionservice.model.Transaction;
 import com.saupay.transactionservice.repository.TransactionRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,8 +70,12 @@ public class TransactionService {
 
     public String generatePaymentToken(String request){
 
-
-        String token = "token_uretildi_saupay";
+        String token = Jwts.builder()
+                .setSubject("userId") // kullanıcının kimliği
+                .setIssuedAt(new Date()) // token'ın oluşturulma tarihi
+                .setExpiration(new Date(System.currentTimeMillis() + 300)) // token'ın geçerlilik süresi (5 dk)
+                .signWith(SignatureAlgorithm.HS512,"54saupay54") // token'ın doğruluğunu sağlamak için kullanılan anahtar
+                .compact();
 
         return token;
     }

@@ -99,7 +99,13 @@ public class DomainService {
 
     }
 
+    public String generatePaymentToken(String request){
+        return transactionServiceClient.generatePaymentToken(request).getBody();
+    }
+
 }
+
+
 
 
 

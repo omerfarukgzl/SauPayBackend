@@ -49,4 +49,9 @@ public class DomainController {
     Response <Transaction_MerchantsDto> getTransactionMerchantByCardId(@PathVariable(value = "userId") String userId){
         return new Response<>(domainService.getTransaction_MerchantByUserId(userId));
     }
+
+    @GetMapping("/generatePaymentToken/{request}")
+    ResponseEntity <String> generatePaymentToken(@PathVariable String request){
+        return ResponseEntity.ok(domainService.generatePaymentToken(request));
+    }
 }
