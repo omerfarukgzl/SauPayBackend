@@ -4,11 +4,13 @@ import com.saupay.transactionservice.dto.TransactionDto;
 import com.saupay.transactionservice.dto.Transaction_MerchantDto;
 import com.saupay.transactionservice.dto.Transaction_MerchantsDto;
 import com.saupay.transactionservice.dto.TransactionsDto;
+import com.saupay.transactionservice.request.EncryptedPaymentRequest;
 import com.saupay.transactionservice.service.TransactionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -40,10 +42,20 @@ public class TransactionController {
     public ResponseEntity <Transaction_MerchantsDto> getTransactionMerchantByCardId(@PathVariable String cardId){
         return ResponseEntity.ok(transactionService.getTransactionMerchantByCardId(cardId));
     }
-    @GetMapping("/generatePaymentToken/{request}")
-    public ResponseEntity <String> generatePaymentToken(@PathVariable String request){
-        return ResponseEntity.ok(transactionService.generatePaymentToken(request));
+    @GetMapping("/generatePaymentToken/{signature}/{randomKey}/{request}")
+    public ResponseEntity <String> generatePaymentToken(@PathVariable String encyrptionRequest,@PathVariable String randomKey,@PathVariable String request){
+        return ResponseEntity.ok(transactionService.generatePaymentToken(encyrptionRequest,randomKey,request));
     }
+
+/*    @GetMapping("/generatePaymentToken")
+    public ResponseEntity <String> generatePaymentToken(HttpServletRequest request, @RequestBody EncryptedPaymentRequest encryptedPaymentRequest){
+
+        String signature = request.getHeader("x-signature");
+        String randomKey = request.getHeader("x-rnd-key");
+
+
+        return ResponseEntity.ok(transactionService.generatePaymentToken(encryptedPaymentRequest,signature,randomKey));
+    }*/
 
 
 }
