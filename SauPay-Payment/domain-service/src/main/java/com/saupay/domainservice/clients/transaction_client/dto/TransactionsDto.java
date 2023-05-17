@@ -1,4 +1,4 @@
-package com.saupay.domainservice.clients.transaction_client;
+package com.saupay.domainservice.clients.transaction_client.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +11,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Transaction_MerchantsDto {
-    private List<Transaction_MerchantDto> transactions;
+public class TransactionsDto {
+    List<TransactionDto> transactions;
 }

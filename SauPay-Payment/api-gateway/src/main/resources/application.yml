@@ -26,6 +26,11 @@ spring:
           uri: lb://user-service
           predicates:
             - Path=/v1/user/**
+
+        - id: transaction-service
+          uri: lb://transaction-service
+          predicates:
+            - Path=/v1/transaction/**
       filters:
         - StripPrefix=1
 

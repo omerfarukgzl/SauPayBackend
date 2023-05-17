@@ -1,4 +1,4 @@
-package com.saupay.domainservice.clients.transaction_client;
+package com.saupay.domainservice.clients.transaction_client.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

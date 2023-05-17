@@ -3,15 +3,18 @@ package com.saupay.domainservice.service;
 import com.saupay.domainservice.clients.card_client.CardDto;
 import com.saupay.domainservice.clients.card_client.CardServiceClient;
 import com.saupay.domainservice.clients.transaction_client.*;
+import com.saupay.domainservice.clients.transaction_client.dto.Transaction_MerchantsDto;
+import com.saupay.domainservice.clients.transaction_client.dto.TransactionsDto;
+import com.saupay.domainservice.clients.transaction_client.request.EncryptedPaymentRequest;
 import com.saupay.domainservice.clients.user_client.UserDto;
 import com.saupay.domainservice.clients.user_client.UserServiceClient;
 import com.saupay.domainservice.exception.GeneralException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -99,9 +102,9 @@ public class DomainService {
 
     }
 
-    public String generatePaymentToken(String request){
-        return transactionServiceClient.generatePaymentToken(request).getBody();
-    }
+/*    public String generatePaymentToken(HttpServletRequest httpServletRequest, EncryptedPaymentRequest encryptedPaymentRequest){
+        return transactionServiceClient.generatePaymentToken(httpServletRequest,encryptedPaymentRequest).getBody();
+    }*/
 
 }
 

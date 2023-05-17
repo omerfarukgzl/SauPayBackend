@@ -1,16 +1,14 @@
-package com.saupay.domainservice.clients.transaction_client;
+package com.saupay.domainservice.clients.transaction_client.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransactionsDto {
-    List<TransactionDto> transactions;
+public class EncryptedPaymentRequest {
+    private String data;
 }
