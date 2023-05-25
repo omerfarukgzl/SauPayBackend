@@ -1,13 +1,13 @@
 package com.saupay.cardservice.controller;
 
 import com.saupay.cardservice.dto.CardDto;
+import com.saupay.cardservice.dto.CardJoinDto;
+import com.saupay.cardservice.dto.CardJoinDtoList;
+import com.saupay.cardservice.request.CreateCardRequest;
 import com.saupay.cardservice.service.CardService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,15 +21,27 @@ public class CardController {
         this.cardService = cardService;
     }
 
-    @PostMapping("/createCard/{userId}/{bankId}")
-    public ResponseEntity<CardDto> createCard(@PathVariable String userId, @PathVariable String bankId){
-        CardDto cardDto=cardService.createCard(userId,bankId);
+    @PostMapping("/createCard")
+    public ResponseEntity<CardDto> createCard(@RequestBody CreateCardRequest createCardRequest){
+        CardDto cardDto=cardService.createCard(createCardRequest);
         return ResponseEntity.ok(cardDto);
     }
 
-    @GetMapping("/getCard/{id}")
-    public ResponseEntity<CardDto> getCard(@PathVariable String id){
-        CardDto cardDto=cardService.findCard(id);
+    @GetMapping("/getCardByBinNumber/{binNumber}")
+    public ResponseEntity<CardJoinDto> getCardByBinNumber(@PathVariable Integer binNumber){
+        CardJoinDto cardDto=cardService.findCardByBinNumber(binNumber);
+        return ResponseEntity.ok(cardDto);
+    }
+
+    @GetMapping("/getCardsBankByUserId/{userId}")
+    public ResponseEntity<CardJoinDtoList> getCardsBankByUserId(@PathVariable String userId){
+        CardJoinDtoList cardDto=cardService.findCardsBankByUserId(userId);
+        return ResponseEntity.ok(cardDto);
+    }
+
+    @GetMapping("/getCardById/{id}")
+    public ResponseEntity<CardDto> getCardById(@PathVariable String id){
+        CardDto cardDto=cardService.findCardById(id);
         return ResponseEntity.ok(cardDto);
     }
 

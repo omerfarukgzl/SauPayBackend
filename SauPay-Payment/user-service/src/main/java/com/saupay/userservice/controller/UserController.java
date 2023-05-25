@@ -1,10 +1,11 @@
 package com.saupay.userservice.controller;
 
 import com.saupay.userservice.dto.UserDto;
-import com.saupay.userservice.request.UserResuest;
+import com.saupay.userservice.request.UserLoginRequest;
+import com.saupay.userservice.request.UserRegisterRequest;
 import com.saupay.userservice.service.UserService;
+import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,26 +22,27 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> registerUser(@RequestBody UserResuest userRequest){
+    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserRegisterRequest userRequest){
         return ResponseEntity.ok(userService.registerUser(userRequest));
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<String> login(){
-        return ResponseEntity.ok("login");
+    @PostMapping("/login")
+    public ResponseEntity<AccessTokenResponse> login(@Valid @RequestBody UserLoginRequest userLoginRequest){
+        return ResponseEntity.ok(userService.loginUser(userLoginRequest));
     }
-
-    @PostMapping("/hello")
-    public ResponseEntity<String> login(@RequestBody UserResuest userRequest){
-        return ResponseEntity.ok("hello");
-    }
-
 
     @GetMapping("/getUser/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable String id){
         UserDto user =userService.getUser(id);
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping("/getUserByUserEmail/{email}")
+    public ResponseEntity<UserDto> getUserByUserEmail(@PathVariable String email){
+        UserDto user =userService.getUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+
 
 
 }

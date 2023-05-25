@@ -22,8 +22,8 @@ public class MerchantService {
         Merchant merchant = new Merchant("","SauGetir","543454");
        return merchantDtoConverter.convert(merchantRepository.save(merchant));
     }
-    public Merchant getMerchant(String id) {
-        Merchant merchant = merchantRepository.findById(id).orElseThrow(() -> new RuntimeException("Merchant Company not found"));
+    public Merchant getMerchant(String code) {
+        Merchant merchant = merchantRepository.findByMerchantCode(code).orElseThrow(() -> new RuntimeException("Merchant Company not found"));
         return merchant;
     }
 }

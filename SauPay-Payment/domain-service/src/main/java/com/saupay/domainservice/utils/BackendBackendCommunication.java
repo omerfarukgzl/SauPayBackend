@@ -1,11 +1,10 @@
-package com.saupay.transactionservice.utils;
+package com.saupay.domainservice.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.saupay.domainservice.clients.request.EncryptedPaymentRequest;
 
-import com.saupay.transactionservice.request.EncryptedPaymentRequest;
 import org.springframework.stereotype.Component;
-
-import static com.saupay.transactionservice.utils.Constants.SECRET_KEY_BACKEND;
+import static com.saupay.domainservice.utils.Constants.SECRET_KEY_BACKEND;
 
 
 @Component

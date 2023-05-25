@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface CustomTransactionRepository {
     Transaction_MerchantsDto findTransactionsMerchantById(@Param("cardId") String cardId);
+    Transaction_MerchantDto findTransactionsMerchantByToken(@Param("token") String token);
 
 }

@@ -1,4 +1,4 @@
-package com.saupay.cardservice.dto;
+package com.saupay.domainservice.clients.card_client;
 
 import lombok.*;
 
@@ -7,16 +7,15 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CardDto {
-    private String id;
+public class CardJoinDto {
     private String cardNumber;
     private Integer binNumber;
     private String cardHolderName;
     private String cardCvv;
     private String cardExpireDate;
     private String cardType;
-    private String userId;
-    private Integer bankCode;
+    private String bankName;
+
     //private Set<AccountDto> accountDtos;
 
 

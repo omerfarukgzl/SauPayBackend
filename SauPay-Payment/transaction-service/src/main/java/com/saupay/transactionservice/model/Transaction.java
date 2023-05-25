@@ -31,6 +31,7 @@ public class Transaction {
     private String cardId;
     private String merchantId;
 
+    private String userId;
     private String token;
 
 
@@ -53,13 +54,14 @@ public class Transaction {
     private CommerceCompany commerceCompany;
 */
 
-    public Transaction(BigDecimal amount,LocalDateTime localDateTime,String cardId,String merchantId,String token)
+    public Transaction(BigDecimal amount,LocalDateTime localDateTime,String cardId,String merchantId,String userId, String token)
     {
         this.id = "";
         this.amount=amount;
         this.localDateTime=localDateTime;
         this.cardId=cardId;
         this.merchantId=merchantId;
+        this.userId=userId;
         this.token=token;
     }
 

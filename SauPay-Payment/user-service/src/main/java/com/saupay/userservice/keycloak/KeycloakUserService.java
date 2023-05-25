@@ -3,6 +3,8 @@ package com.saupay.userservice.keycloak;
 
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.representations.AccessTokenResponse;
+import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
 

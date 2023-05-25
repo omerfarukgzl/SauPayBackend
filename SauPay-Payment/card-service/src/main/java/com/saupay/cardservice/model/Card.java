@@ -18,17 +18,16 @@ public class Card {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name="UUID",strategy="org.hibernate.id.UUIDGenerator")
     private String id;
-
     private String cardNumber;
-    private String binNumber;
+    private Integer binNumber;
     private String cardHolderName;
     private String cardCvv;
     private String cardExpireDate;
     private String cardType;
-
     private String userId;
 
-    private String bankId;
+    private Integer bankCode;
+    private String bankCardId;
 
 /*
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -36,7 +35,7 @@ public class Card {
     private Bank bank;
 */
 
-    public Card(String cardNumber, String binNumber, String cardHolderName, String cardCvv, String cardExpireDate, String cardType, String userId, String bankId) {
+    public Card(String cardNumber, Integer binNumber, String cardHolderName, String cardCvv, String cardExpireDate, String cardType, String userId, Integer bankCode, String bankCardId) {
         this.cardNumber = cardNumber;
         this.binNumber = binNumber;
         this.cardHolderName = cardHolderName;
@@ -44,7 +43,8 @@ public class Card {
         this.cardExpireDate = cardExpireDate;
         this.cardType = cardType;
         this.userId = userId;
-        this.bankId = bankId;
+        this.bankCode = bankCode;
+        this.bankCardId = bankCardId;
         //this.card_accounts = card_accounts;
     }
 

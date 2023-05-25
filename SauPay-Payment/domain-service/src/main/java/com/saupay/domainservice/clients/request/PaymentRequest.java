@@ -1,4 +1,4 @@
-package com.saupay.domainservice.clients.transaction_client.request;
+package com.saupay.domainservice.clients.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EncryptedPaymentRequest {
-    private String data;
+public class PaymentRequest {
+    public String token;
 }

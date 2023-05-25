@@ -4,6 +4,8 @@ import com.saupay.cardservice.dto.CardDto;
 import com.saupay.cardservice.model.Card;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 @Component
 public class CardDtoConverter {
@@ -25,8 +27,6 @@ public class CardDtoConverter {
                 from.getCardExpireDate(),
                 from.getCardType(),
                 from.getUserId(),
-                from.getBankId());
+                from.getBankCode());
     }
-
-
 }

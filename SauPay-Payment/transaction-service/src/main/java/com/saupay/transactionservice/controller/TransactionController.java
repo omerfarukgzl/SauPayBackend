@@ -38,10 +38,31 @@ public class TransactionController {
     public ResponseEntity <TransactionsDto> getTransactionByCardId(@PathVariable String cardId){
         return ResponseEntity.ok(transactionService.getTransactionByCardId(cardId));
     }
-    @GetMapping("/getTransactionMerchantByCardId/{cardId}")
-    public ResponseEntity <Transaction_MerchantsDto> getTransactionMerchantByCardId(@PathVariable String cardId){
+    @GetMapping("/getTransactionsMerchantByCardId/{cardId}")
+    ResponseEntity<Transaction_MerchantsDto> getTransactionsMerchantByCardId(@PathVariable String cardId) {
         return ResponseEntity.ok(transactionService.getTransactionMerchantByCardId(cardId));
     }
+    @GetMapping("/getTransactionMerchantByToken/{token}")
+    public ResponseEntity<Transaction_MerchantDto> getTransactionMerchantByToken(@PathVariable String token/*HttpServletRequest request,@RequestBody EncryptedPaymentRequest encryptedPaymentRequest*/){
+        return ResponseEntity.ok(transactionService.getTransactionMerchantByToken(token/*encryptedPaymentRequest,signature,randomKey*/));
+    }
+
+    @PostMapping("/generatePaymentToken")
+    public ResponseEntity <String> generatePaymentToken(HttpServletRequest request,@RequestBody EncryptedPaymentRequest encryptedPaymentRequest){
+        String signature = request.getHeader("x-signature");
+        String randomKey = request.getHeader("x-rnd-key");
+        return ResponseEntity.ok(transactionService.generatePaymentToken(encryptedPaymentRequest,signature,randomKey));
+    }
+
+
+}
+
+
+/*    @GetMapping("/getTransactionMerchantByCardId/{cardId}")
+    public ResponseEntity <Transaction_MerchantsDto> getTransactionMerchantByCardId(@PathVariable String cardId){
+        return ResponseEntity.ok(transactionService.getTransactionMerchantByCardId(cardId));
+    }*/
+
 /*    @GetMapping("/generatePaymentToken/{signature}/{randomKey}/{request}")
     public ResponseEntity <String> generatePaymentToken(@PathVariable String encyrptionRequest,@PathVariable String randomKey,@PathVariable String request){
         return ResponseEntity.ok(transactionService.generatePaymentToken(encyrptionRequest,randomKey,request));
@@ -57,12 +78,3 @@ public class TransactionController {
         return ResponseEntity.ok(transactionService.generatePaymentToken(encryptedPaymentRequest,signature,randomKey));
     }*/
 
-    @PostMapping("/generatePaymentToken")
-    public ResponseEntity <String> generatePaymentToken(HttpServletRequest request,@RequestBody EncryptedPaymentRequest encryptedPaymentRequest){
-        String signature = request.getHeader("x-signature");
-        String randomKey = request.getHeader("x-rnd-key");
-        return ResponseEntity.ok(transactionService.generatePaymentToken(encryptedPaymentRequest,signature,randomKey));
-    }
-
-
-}
