@@ -72,8 +72,11 @@ public class DomainService {
         try {
 
             CardRequest cardRequest=objectMapper.readValue(decrypted,CardRequest.class);
+            System.out.println("CardRequestEmail"+cardRequest.getEmail());
             UserDto userDto=userServiceClient.getUserByUserEmail(cardRequest.getEmail()).getBody();
+            System.out.println("Find User ID"+userDto.getId());
             CardJoinDtoList cardJoinDtoList= cardServiceClient.getCardsBankByUserId(userDto.getId()).getBody();
+            System.out.println("CardJoinDtoList"+cardJoinDtoList);
             if(cardJoinDtoList==null){
                 throw  new GeneralException("There is no card for this bin number","404");
             }

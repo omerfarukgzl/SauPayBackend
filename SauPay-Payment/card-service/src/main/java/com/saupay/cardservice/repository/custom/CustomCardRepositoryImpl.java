@@ -36,6 +36,7 @@ public class CustomCardRepositoryImpl implements CustomCardRepository {
         for (Object[] result : resultList) {
             CardJoinDto dto = cardDtoConverter.convert(result);
             dtoList.add(dto);
+            System.out.println("find Card : " + dto.getCardNumber() + " " + dto.getBinNumber() + " " + dto.getCardHolderName() + " " + dto.getCardCvv() + " " + dto.getCardExpireDate() + " " + dto.getCardType() + " " + dto.getBankName());
         }
         cardDtoList.setCards(dtoList);
 

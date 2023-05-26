@@ -45,8 +45,8 @@ public class DomainController {
         return new Response<>(cards);
     }
 
-    @GetMapping("/getCardsBankByUserEmail")
-    public ResponseEntity<CardJoinDtoList> getCardsBankByUserEmail(HttpServletRequest httpServletRequest,@RequestBody EncryptedPaymentRequest encryptedPaymentRequest){
+    @PostMapping("/getCardsBankByUserEmail")
+    public Response<CardJoinDtoList> getCardsBankByUserEmail(HttpServletRequest httpServletRequest,@RequestBody EncryptedPaymentRequest encryptedPaymentRequest){
         System.out.println("encryptedPaymentCardRequest: " + encryptedPaymentRequest);
 
         String signature = httpServletRequest.getHeader("x-signature");
@@ -55,7 +55,10 @@ public class DomainController {
         System.out.println("Card-randomKey: " + randomKey);
 
         CardJoinDtoList cardDto=domainService.getCardsBankByUserEmail(encryptedPaymentRequest,signature,randomKey);
-        return ResponseEntity.ok(cardDto);
+        System.out.println("response Card: " + cardDto.getCards().get(0).getCardNumber() +
+                cardDto.getCards().get(0).getCardHolderName() +
+                cardDto.getCards().get(0).getCardType());
+        return new Response<>(cardDto);
     }
 
 /*    @GetMapping("/getCardsBankByUserId/{userId}")

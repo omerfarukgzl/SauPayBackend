@@ -111,7 +111,13 @@ public class UserService {
     }
 
     public UserDto getUserByEmail(String email) {
-        return userDtoConverter.convert(userRepository.findByUserEmail(email).orElse(null));
+        UserDto userDto = userDtoConverter.convert(userRepository.findByUserEmail(email).orElse(null));
+        if (userDto == null) {
+            throw new RuntimeException("This email is not registered as a user. Please check and retry.");
+        }
+        System.out.println("Find User"+userDto);
+
+        return userDto;
     }
 
 
