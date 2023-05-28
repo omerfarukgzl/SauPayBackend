@@ -10,5 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CardRequest {
+    private String paymentToken;
     private String email;
 }

@@ -4,7 +4,9 @@ import com.saupay.transactionservice.dto.TransactionDto;
 import com.saupay.transactionservice.dto.Transaction_MerchantDto;
 import com.saupay.transactionservice.dto.Transaction_MerchantsDto;
 import com.saupay.transactionservice.dto.TransactionsDto;
+import com.saupay.transactionservice.model.Transaction;
 import com.saupay.transactionservice.request.EncryptedPaymentRequest;
+import com.saupay.transactionservice.response.TreeDSecureResponse;
 import com.saupay.transactionservice.service.TransactionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,19 @@ public class TransactionController {
     public ResponseEntity<TransactionDto> getTransaction(@PathVariable String id){
         return ResponseEntity.ok(transactionService.getTransaction(id));
     }
+    @PutMapping("/updateTransaction")
+    public ResponseEntity<Transaction> updateTransaction(@RequestBody Transaction transaction){
+        System.out.println("transaction = "
+                + transaction.getId()
+                + " " + transaction.getCardId()
+                + " " + transaction.getMerchantId()
+                + " " + transaction.getAmount()
+                + " " + transaction.getUserId()
+                + " " + transaction.getToken()
+                + " " + transaction.getStatus());
+        return ResponseEntity.ok(transactionService.updateTransaction(transaction));
+    }
+
     @GetMapping("/getTransactionAll")
     public ResponseEntity <List<TransactionDto>> getTransactionAll(){
         return ResponseEntity.ok(transactionService.getAllTransaction());
@@ -47,11 +62,21 @@ public class TransactionController {
         return ResponseEntity.ok(transactionService.getTransactionMerchantByToken(token/*encryptedPaymentRequest,signature,randomKey*/));
     }
 
+    @GetMapping("/getTransactionByToken/{token}")
+    public ResponseEntity<Transaction> getTransactionByToken(@PathVariable String token){
+        return ResponseEntity.ok(transactionService.getTransactionByToken(token));
+    }
+
     @PostMapping("/generatePaymentToken")
     public ResponseEntity <String> generatePaymentToken(HttpServletRequest request,@RequestBody EncryptedPaymentRequest encryptedPaymentRequest){
         String signature = request.getHeader("x-signature");
         String randomKey = request.getHeader("x-rnd-key");
         return ResponseEntity.ok(transactionService.generatePaymentToken(encryptedPaymentRequest,signature,randomKey));
+    }
+
+    @GetMapping("/getTreeDSecureResponse/{token}")
+    ResponseEntity<TreeDSecureResponse> getTreeDSecureResponse(@PathVariable String token){
+        return ResponseEntity.ok(transactionService.getTreeDSecureResponse(token));
     }
 
 

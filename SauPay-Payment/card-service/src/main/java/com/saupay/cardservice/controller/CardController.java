@@ -33,6 +33,12 @@ public class CardController {
         return ResponseEntity.ok(cardDto);
     }
 
+    @GetMapping("/getCardByCardNumber/{cardNumber}")
+    ResponseEntity<CardDto> getCardByCardNumber(@PathVariable String cardNumber){
+        CardDto cardDto=cardService.findCardByCardNumber(cardNumber);
+        return ResponseEntity.ok(cardDto);
+    }
+
     @GetMapping("/getCardsBankByUserId/{userId}")
     public ResponseEntity<CardJoinDtoList> getCardsBankByUserId(@PathVariable String userId){
         CardJoinDtoList cardDto=cardService.findCardsBankByUserId(userId);

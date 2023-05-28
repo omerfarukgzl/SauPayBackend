@@ -9,6 +9,7 @@ import com.saupay.domainservice.clients.transaction_client.dto.Transaction_Merch
 import com.saupay.domainservice.clients.transaction_client.dto.TransactionsDto;
 import com.saupay.domainservice.clients.user_client.UserDto;
 import com.saupay.domainservice.response.Response;
+import com.saupay.domainservice.response.TreeDSecureResponse;
 import com.saupay.domainservice.service.DomainService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,8 +46,8 @@ public class DomainController {
         return new Response<>(cards);
     }
 
-    @PostMapping("/getCardsBankByUserEmail")
-    public Response<CardJoinDtoList> getCardsBankByUserEmail(HttpServletRequest httpServletRequest,@RequestBody EncryptedPaymentRequest encryptedPaymentRequest){
+    @PostMapping("/getBankCardsByUserEmailForPayment")
+    public Response<CardJoinDtoList> getBankCardsByUserEmailForPayment(HttpServletRequest httpServletRequest,@RequestBody EncryptedPaymentRequest encryptedPaymentRequest){
         System.out.println("encryptedPaymentCardRequest: " + encryptedPaymentRequest);
 
         String signature = httpServletRequest.getHeader("x-signature");
@@ -54,12 +55,24 @@ public class DomainController {
         System.out.println("Card-signature: " + signature);
         System.out.println("Card-randomKey: " + randomKey);
 
-        CardJoinDtoList cardDto=domainService.getCardsBankByUserEmail(encryptedPaymentRequest,signature,randomKey);
+        CardJoinDtoList cardDto=domainService.getBankCardsByUserEmailForPayment(encryptedPaymentRequest,signature,randomKey);
         System.out.println("response Card: " + cardDto.getCards().get(0).getCardNumber() +
                 cardDto.getCards().get(0).getCardHolderName() +
                 cardDto.getCards().get(0).getCardType());
         return new Response<>(cardDto);
     }
+
+    @PostMapping("/paymentCompleteRequestForTreeDSecure")
+    public Response<TreeDSecureResponse> paymentCompleteRequestForTreeDSecure(HttpServletRequest httpServletRequest, @RequestBody EncryptedPaymentRequest encryptedPaymentRequest){
+        String signature = httpServletRequest.getHeader("x-signature");
+        String randomKey = httpServletRequest.getHeader("x-rnd-key");
+
+        TreeDSecureResponse treeDSecureResponse = domainService.paymentCompleteRequestForTreeDSecure(encryptedPaymentRequest,signature,randomKey);
+        return new Response<>(treeDSecureResponse);
+    }
+
+
+
 
 /*    @GetMapping("/getCardsBankByUserId/{userId}")
     public ResponseEntity<CardJoinDtoList> getCardsBankByUserId(@PathVariable String userId){

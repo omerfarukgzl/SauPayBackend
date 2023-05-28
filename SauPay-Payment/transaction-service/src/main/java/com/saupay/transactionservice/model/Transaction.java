@@ -33,6 +33,7 @@ public class Transaction {
 
     private String userId;
     private String token;
+    private Boolean status;
 
 
     //Lazy yükleme
@@ -54,7 +55,7 @@ public class Transaction {
     private CommerceCompany commerceCompany;
 */
 
-    public Transaction(BigDecimal amount,LocalDateTime localDateTime,String cardId,String merchantId,String userId, String token)
+    public Transaction(BigDecimal amount,LocalDateTime localDateTime,String cardId,String merchantId,String userId, String token,Boolean status)
     {
         this.id = "";
         this.amount=amount;
@@ -63,6 +64,7 @@ public class Transaction {
         this.merchantId=merchantId;
         this.userId=userId;
         this.token=token;
+        this.status=status;
     }
 
 

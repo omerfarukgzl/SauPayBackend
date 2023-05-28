@@ -13,6 +13,7 @@ import com.saupay.transactionservice.model.Transaction;
 import com.saupay.transactionservice.repository.TransactionRepository;
 import com.saupay.transactionservice.request.EncryptedPaymentRequest;
 import com.saupay.transactionservice.request.PaymentRequest;
+import com.saupay.transactionservice.response.TreeDSecureResponse;
 import com.saupay.transactionservice.utils.AndroidBackendCommuication;
 import com.saupay.transactionservice.utils.BackendBackendCommunication;
 import com.saupay.transactionservice.utils.EncryptionUtil;
@@ -48,10 +49,14 @@ public class TransactionService {
         this.androidBackendCommuication = androidBackendCommuication;
         this.merchantService = merchantService;
     }
-    public TransactionDto createTransaction(String cardId,String userId,BigDecimal amount, String merchantId, String token){
+    public TransactionDto createTransaction(String cardId,String userId,BigDecimal amount, String merchantId, String token,Boolean status){
        /* Transaction transaction = new Transaction(new BigDecimal(100.00), LocalDateTime.now(),cardId,merchantId,token);*/
-        Transaction transaction = new Transaction(amount,LocalDateTime.now(),cardId,merchantId,userId,token);
+        Transaction transaction = new Transaction(amount,LocalDateTime.now(),cardId,merchantId,userId,token,status);
         return transactionDtoConverter.convert(transactionRepository.save(transaction));
+    }
+    // update transaction
+    public Transaction updateTransaction(Transaction transaction){
+        return transactionRepository.save(transaction);
     }
     public TransactionDto getTransaction(String id){
         return transactionDtoConverter.convert(transactionRepository.findById(id).get());
@@ -79,6 +84,19 @@ public class TransactionService {
     public Transaction_MerchantsDto getTransactionMerchantByCardId(String cardId){
         return transactionRepository.findTransactionsMerchantById(cardId);
     }
+    public Transaction_MerchantDto getTransactionMerchantByToken(String token/*EncryptedPaymentRequest encryptedPaymentRequest, String signature, String randomKey*/){
+
+/*        String decryptedData = androidBackendCommuication.AndroidToBackendEncryptedAndSignatureDataTransaction(encryptedPaymentRequest, signature, randomKey);
+        System.out.println("Decrypted-Token Request-Mobile: " + decryptedData);*/
+
+        Transaction_MerchantDto transaction_merchantDto = transactionRepository.findTransactionsMerchantByToken(token);
+
+        return transaction_merchantDto;
+    }
+
+    public Transaction getTransactionByToken(String token){
+        return transactionRepository.findByToken(token).orElseThrow(() -> new TransacitonNotFoundException("Transaction not found","4000"));
+    }
 
 
     public String generatePaymentToken(EncryptedPaymentRequest encryptedPaymentRequest, String signature, String randomKey){
@@ -90,7 +108,7 @@ public class TransactionService {
         try {
             PaymentRequest paymentRequest = objectMapper.readValue(decryptedData, PaymentRequest.class);
             Merchant merchant = merchantService.getMerchant(paymentRequest.getMerchantCode());
-            createTransaction(null,null,paymentRequest.getAmount(),merchant.getId(),token);
+            createTransaction(null,null,paymentRequest.getAmount(),merchant.getId(),token,false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,15 +118,15 @@ public class TransactionService {
         return encryptedAndToken;
     }
 
-    public Transaction_MerchantDto getTransactionMerchantByToken(String token/*EncryptedPaymentRequest encryptedPaymentRequest, String signature, String randomKey*/){
-
-/*        String decryptedData = androidBackendCommuication.AndroidToBackendEncryptedAndSignatureDataTransaction(encryptedPaymentRequest, signature, randomKey);
-        System.out.println("Decrypted-Token Request-Mobile: " + decryptedData);*/
-
-        Transaction_MerchantDto transaction_merchantDto = transactionRepository.findTransactionsMerchantByToken(token);
-
-        return transaction_merchantDto;
+    public TreeDSecureResponse getTreeDSecureResponse(String token){
+        return transactionRepository.findTreeDSecureResponseByToken(token);
     }
+
+    /*        Transaction transaction = getTransactionByToken(token);
+        transaction.setStatus(true);
+        updateTransaction(transaction);*/
+
+
 
 
 

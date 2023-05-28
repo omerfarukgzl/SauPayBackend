@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface TransactionRepository extends JpaRepository<Transaction, String>,CustomTransactionRepository { //==> Transaction modelinden ve string id'li bir repository oluşturduk.
 
     List<Transaction> findByCardId(String cardId); //==> CardId'ye göre Card a ait transaction'ları getirir.
+    Optional<Transaction> findByToken(String token); //==> Token'a göre Card a ait transaction'ları getirir.
 
 }

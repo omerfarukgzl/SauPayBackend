@@ -53,6 +53,10 @@ public class CardService {
         return cardRepository.findCardBankJoinByBinNumber(binNumber).orElseThrow(() -> new CardNotFoundException("Card could not found by id: " + binNumber));
     }
 
+    public CardDto findCardByCardNumber(String cardNumber){
+        return cardDtoConverter.convert(cardRepository.findByCardNumber(cardNumber).orElseThrow(() -> new CardNotFoundException("Card could not found by id: " + cardNumber)));
+    }
+
     public CardJoinDtoList findCardsBankByUserId(String userId){
         return cardRepository.findCardBankJoinByUserId(userId).orElseThrow(() -> new CardNotFoundException("Card could not found by id: " + userId));
     }

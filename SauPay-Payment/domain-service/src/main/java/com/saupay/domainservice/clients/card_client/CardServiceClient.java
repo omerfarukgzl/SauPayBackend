@@ -20,6 +20,9 @@ public interface CardServiceClient {
     @GetMapping("/getCardByBinNumber/{binNumber}")
     ResponseEntity<CardJoinDto> getCardByBinNumber(@PathVariable Integer binNumber);
 
+    @GetMapping("/getCardByCardNumber/{cardNumber}")
+    ResponseEntity<CardDto> getCardByCardNumber(@PathVariable String cardNumber);
+
     @GetMapping("/getCardsBankByUserId/{userId}")
     ResponseEntity<CardJoinDtoList> getCardsBankByUserId(@PathVariable String userId);
 
