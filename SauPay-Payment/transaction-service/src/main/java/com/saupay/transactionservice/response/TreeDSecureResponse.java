@@ -23,4 +23,6 @@ public class TreeDSecureResponse {
     private Timestamp date;
     private String cardNumber;
     private String userPhone;
+    private String bankName;
+    private String organization;
 }

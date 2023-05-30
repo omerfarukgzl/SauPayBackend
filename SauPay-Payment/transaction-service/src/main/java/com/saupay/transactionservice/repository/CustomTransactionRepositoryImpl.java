@@ -50,7 +50,11 @@ public class CustomTransactionRepositoryImpl implements CustomTransactionReposit
     @Override
     public Transaction_MerchantDto findTransactionsMerchantByToken(String token) {
         var session = sessionFactory.openSession();
-        Query query = session.createNativeQuery("SELECT m.merchant_name, t.amount, t.local_date_time FROM transaction t JOIN merchant m ON t.merchant_id = m.id WHERE t.token =" + "'" + token + "'");
+        Query query = session.createNativeQuery("SELECT m.merchant_name, t.amount, t.local_date_time " +
+                "FROM transaction t " +
+                "JOIN merchant m ON " +
+                "t.merchant_id = m.id " +
+                "WHERE t.token =" + "'" + token + "'");
         /*List<Transaction_MerchantDto> list = query.list();
         return list;*/
         List<Object[]> resultList = query.getResultList();
@@ -74,7 +78,7 @@ public class CustomTransactionRepositoryImpl implements CustomTransactionReposit
     @Override
     public TreeDSecureResponse findTreeDSecureResponseByToken(String token) {
         var session = sessionFactory.openSession();
-        Query query = session.createNativeQuery("SELECT m.merchant_name, t.amount, t.local_date_time, c.card_number, u.user_phone" +
+        Query query = session.createNativeQuery("SELECT m.merchant_name, t.amount, t.local_date_time, c.card_number, u.user_phone, " +
                 " FROM transaction t " +
                 "JOIN merchant m ON t.merchant_id = m.id " +
                 "JOIN card c ON t.card_id = c.id " +
