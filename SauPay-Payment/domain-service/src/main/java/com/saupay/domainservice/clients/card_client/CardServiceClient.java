@@ -1,6 +1,7 @@
 package com.saupay.domainservice.clients.card_client;
 
 import com.saupay.domainservice.clients.card_client.request.CreateCardRequest;
+import com.saupay.domainservice.clients.request.AddCardRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

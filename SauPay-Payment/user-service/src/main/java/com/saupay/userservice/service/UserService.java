@@ -3,12 +3,14 @@ package com.saupay.userservice.service;
 
 import com.saupay.userservice.dto.UserDto;
 import com.saupay.userservice.dto.converter.UserDtoConverter;
+import com.saupay.userservice.exception.GeneralException;
 import com.saupay.userservice.keycloak.KeycloakProperties;
 import com.saupay.userservice.keycloak.KeycloakUserService;
 import com.saupay.userservice.model.User;
 import com.saupay.userservice.repository.UserRepository;
 import com.saupay.userservice.request.UserLoginRequest;
 import com.saupay.userservice.request.UserRegisterRequest;
+import com.saupay.userservice.response.RegisterResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.AccessTokenResponse;
@@ -40,14 +42,14 @@ public class UserService {
     }
 
 
-    public UserDto registerUser(UserRegisterRequest userRequest) {
+    public RegisterResponse registerUser(UserRegisterRequest userRequest) {
 
         List<UserRepresentation> userRepresentations = keycloakUserService.readUserByEmail(userRequest.getUserEmail());
         if (userRepresentations.size() > 0) {
-            throw new RuntimeException("This email already registered as a user. Please check and retry.");
+            throw new GeneralException("404","This email already registered as a user. Please check and retry.");
         }
         userRepository.findByUserEmail(userRequest.getUserEmail()).ifPresent(user -> {
-            throw new RuntimeException("This email already registered as a user. Please check and retry.");
+            throw new GeneralException("404","This email already registered as a user. Please check and retry.");
         });
 
         //user attributes set
@@ -73,38 +75,25 @@ public class UserService {
 
             User user = new User("",userRequest.getUserName(),userRequest.getUserSurname(),userRequest.getUserEmail(),userRequest.getUserPassword(),userRequest.getUserPhone(),userRequest.getUserTC(), LocalDateTime.now());
             UserDto userDto = userDtoConverter.convert(userRepository.save(user));
-            return userDto;
+            System.out.println("User created successfully" + " " + userDto.getCustomerName() + " " + userDto.getCustomerSurname() + " " + userDto.getCustomerEmail() + " " + userDto.getCustomerPhone() + " " + userDto.getCustomerTC());
+            return new RegisterResponse(true);
         }
         else {
-            throw new RuntimeException("We couldn't find user under given identification. Please check and retry");
+            throw new GeneralException("404","We couldn't find user under given identification. Please check and retry");
         }
     }
     // login service - return jwt token
     public AccessTokenResponse loginUser(UserLoginRequest userLoginRequest)
     {
-        User user = userRepository.findByUserEmail(userLoginRequest.getEmail()).orElseThrow(() -> new RuntimeException("This email is not registered as a user. Please check and retry."));
+        User user = userRepository.findByUserEmail(userLoginRequest.getEmail()).orElseThrow(() -> new GeneralException("404","This email is not registered as a user. Please check and retry."));
         if(!user.getUserPassword().equals(userLoginRequest.getPassword()))
-            throw new RuntimeException("Password is not correct. Please check and retry.");
+            throw new GeneralException("404","Password is not correct. Please check and retry.");
 
         Keycloak keycloak = keycloakProperties.newKeycloakBuilderWithPasswordCredentials(userLoginRequest.getEmail(), userLoginRequest.getPassword()).build();
         AccessTokenResponse accessTokenResponse;
         accessTokenResponse = keycloak.tokenManager().getAccessToken();
+        System.out.println("Token: " + accessTokenResponse.getToken());
         return accessTokenResponse;
-
-       /* List<UserRepresentation> userRepresentations = keycloakUserService.readUserByEmail(userLoginRequest.getEmail());
-        if (userRepresentations.size() == 0) {
-            throw new RuntimeException("This email is not registered as a user. Please check and retry.");
-        }
-        UserRepresentation userRepresentation = userRepresentations.get(0);
-        UserDto userDto = userDtoConverter.convert(userRepository.findByUserEmail(userLoginRequest.getEmail()).orElse(null));
-        if (userDto == null) {
-            throw new RuntimeException("This email is not registered as a user. Please check and retry.");
-        }
-        if (!userDto.().equals(userLoginRequest.getUserPassword())) {
-            throw new RuntimeException("Password is not correct. Please check and retry.");
-        }
-        return keycloakUserService.generateToken(userRepresentation.getUsername(), userLoginRequest.getUserPassword());*/
-
     }
     public UserDto getUser(String id) {
         return userDtoConverter.convert(userRepository.findById(id).orElse(null));
@@ -124,3 +113,36 @@ public class UserService {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       /*
+
+        login
+
+
+        List<UserRepresentation> userRepresentations = keycloakUserService.readUserByEmail(userLoginRequest.getEmail());
+        if (userRepresentations.size() == 0) {
+            throw new RuntimeException("This email is not registered as a user. Please check and retry.");
+        }
+        UserRepresentation userRepresentation = userRepresentations.get(0);
+        UserDto userDto = userDtoConverter.convert(userRepository.findByUserEmail(userLoginRequest.getEmail()).orElse(null));
+        if (userDto == null) {
+            throw new RuntimeException("This email is not registered as a user. Please check and retry.");
+        }
+        if (!userDto.().equals(userLoginRequest.getUserPassword())) {
+            throw new RuntimeException("Password is not correct. Please check and retry.");
+        }
+        return keycloakUserService.generateToken(userRepresentation.getUsername(), userLoginRequest.getUserPassword());*/

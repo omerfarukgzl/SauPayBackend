@@ -30,9 +30,10 @@ public class User {
     private String userName;
     private String userSurname;
     private String userEmail;
+    private String userPassword;
     private String userPhone;
     private String userTC;
-    private String userPassword;
+
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

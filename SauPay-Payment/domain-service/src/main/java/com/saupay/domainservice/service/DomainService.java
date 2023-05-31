@@ -5,17 +5,16 @@ import com.saupay.domainservice.clients.card_client.CardDto;
 import com.saupay.domainservice.clients.card_client.CardJoinDto;
 import com.saupay.domainservice.clients.card_client.CardJoinDtoList;
 import com.saupay.domainservice.clients.card_client.CardServiceClient;
-import com.saupay.domainservice.clients.request.CardRequest;
-import com.saupay.domainservice.clients.request.PaymentCompleteRequest;
+import com.saupay.domainservice.clients.card_client.request.CreateCardRequest;
+import com.saupay.domainservice.clients.request.*;
 import com.saupay.domainservice.clients.transaction_client.*;
 import com.saupay.domainservice.clients.transaction_client.dto.Transaction_MerchantDto;
 import com.saupay.domainservice.clients.transaction_client.dto.Transaction_MerchantsDto;
 import com.saupay.domainservice.clients.transaction_client.dto.TransactionsDto;
-import com.saupay.domainservice.clients.request.EncryptedPaymentRequest;
-import com.saupay.domainservice.clients.request.PaymentRequest;
 import com.saupay.domainservice.clients.user_client.UserDto;
 import com.saupay.domainservice.clients.user_client.UserServiceClient;
 import com.saupay.domainservice.exception.GeneralException;
+import com.saupay.domainservice.response.AddCard;
 import com.saupay.domainservice.response.TreeDSecureResponse;
 import com.saupay.domainservice.utils.AndroidBackendCommuication;
 import com.saupay.domainservice.utils.BackendBackendCommunication;
@@ -97,6 +96,61 @@ public class DomainService {
             throw  new GeneralException("There is no card for this bin number","404");
         }
     }
+
+    public CardJoinDtoList getBankCardsByUserEmail(EncryptedPaymentRequest encryptedPaymentRequest,String signature, String randomKey){
+
+        String decrypted =androidBackendCommuication.AndroidToBackendEncryptedAndSignatureDataTransaction(encryptedPaymentRequest,signature,randomKey);
+
+        try {
+
+            CardListRequest cardListRequest=objectMapper.readValue(decrypted,CardListRequest.class);
+            System.out.println("CardRequestEmail"+cardListRequest.getEmail());
+
+            UserDto userDto=userServiceClient.getUserByUserEmail(cardListRequest.getEmail()).getBody();
+            System.out.println("Find User ID"+userDto.getId());
+
+            CardJoinDtoList cardJoinDtoList= cardServiceClient.getCardsBankByUserId(userDto.getId()).getBody();
+            System.out.println("CardJoinDtoList"+cardJoinDtoList);
+            if(cardJoinDtoList==null){
+                throw  new GeneralException("There is no card for this bin number","404");
+            }
+            return cardJoinDtoList;
+        }catch (Exception e){
+            throw  new GeneralException("There is no card for this bin number","404");
+        }
+    }
+
+
+    public AddCard addCard(EncryptedPaymentRequest encryptedPaymentRequest, String signature, String randomKey){
+
+            String decrypted =androidBackendCommuication.AndroidToBackendEncryptedAndSignatureDataTransaction(encryptedPaymentRequest,signature,randomKey);
+
+            try {
+                AddCardRequest addCardRequest = objectMapper.readValue(decrypted, AddCardRequest.class);
+                System.out.println("CardRequest" + addCardRequest.getCardNumber() + "CardHolderName" + addCardRequest.getCardHolderName()
+                        + "CardExpireDate" + addCardRequest.getCardExpireDate() + "CardCvv" + addCardRequest.getCardCvv()
+                        + "Email" + addCardRequest.getEmail());
+
+                UserDto userDto = userServiceClient.getUserByUserEmail(addCardRequest.getEmail()).getBody();
+
+                CreateCardRequest createCardRequest = new CreateCardRequest();
+                createCardRequest.setCardNumber(addCardRequest.getCardNumber());
+                createCardRequest.setCardHolderName(addCardRequest.getCardHolderName());
+                createCardRequest.setCardExpireDate(addCardRequest.getCardExpireDate());
+                createCardRequest.setCardCvv(addCardRequest.getCardCvv());
+                createCardRequest.setUserId(userDto.getId());
+                CardDto cardDto = cardServiceClient.createCard(createCardRequest).getBody();
+
+                return new AddCard(true);
+            }
+            catch (Exception e){
+                throw  new GeneralException("Geçersiz Kard Bilgileri","404");
+            }
+
+    }
+
+
+
 
     public TreeDSecureResponse paymentCompleteRequestForTreeDSecure(EncryptedPaymentRequest encryptedPaymentRequest,String signature, String randomKey){
 

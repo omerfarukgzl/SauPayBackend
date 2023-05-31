@@ -78,8 +78,8 @@ public class CustomTransactionRepositoryImpl implements CustomTransactionReposit
     @Override
     public TreeDSecureResponse findTreeDSecureResponseByToken(String token) {
         var session = sessionFactory.openSession();
-        Query query = session.createNativeQuery("SELECT m.merchant_name, t.amount, t.local_date_time, c.card_number, u.user_phone, " +
-                " FROM transaction t " +
+        Query query = session.createNativeQuery("SELECT m.merchant_name, t.amount, t.local_date_time, c.card_number, u.user_phone " +
+                "FROM transaction t " +
                 "JOIN merchant m ON t.merchant_id = m.id " +
                 "JOIN card c ON t.card_id = c.id " +
                 "JOIN userdb u ON t.user_id = u.id " +

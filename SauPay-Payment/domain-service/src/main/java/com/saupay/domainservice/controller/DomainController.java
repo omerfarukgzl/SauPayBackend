@@ -8,6 +8,7 @@ import com.saupay.domainservice.clients.request.EncryptedPaymentRequest;
 import com.saupay.domainservice.clients.transaction_client.dto.Transaction_MerchantsDto;
 import com.saupay.domainservice.clients.transaction_client.dto.TransactionsDto;
 import com.saupay.domainservice.clients.user_client.UserDto;
+import com.saupay.domainservice.response.AddCard;
 import com.saupay.domainservice.response.Response;
 import com.saupay.domainservice.response.TreeDSecureResponse;
 import com.saupay.domainservice.service.DomainService;
@@ -56,10 +57,28 @@ public class DomainController {
         System.out.println("Card-randomKey: " + randomKey);
 
         CardJoinDtoList cardDto=domainService.getBankCardsByUserEmailForPayment(encryptedPaymentRequest,signature,randomKey);
-        System.out.println("response Card: " + cardDto.getCards().get(0).getCardNumber() +
-                cardDto.getCards().get(0).getCardHolderName() +
-                cardDto.getCards().get(0).getCardType());
         return new Response<>(cardDto);
+    }
+
+    @PostMapping("/getBankCardsByUserEmail")
+    public Response<CardJoinDtoList> getBankCardsByUserEmail(HttpServletRequest httpServletRequest,@RequestBody EncryptedPaymentRequest encryptedPaymentRequest){
+        System.out.println("encryptedPaymentCardRequest: " + encryptedPaymentRequest);
+
+        String signature = httpServletRequest.getHeader("x-signature");
+        String randomKey = httpServletRequest.getHeader("x-rnd-key");
+        System.out.println("Card-signature: " + signature);
+        System.out.println("Card-randomKey: " + randomKey);
+
+        CardJoinDtoList cardDto=domainService.getBankCardsByUserEmail(encryptedPaymentRequest,signature,randomKey);
+        return new Response<>(cardDto);
+    }
+
+    @PostMapping("/addCard")
+    public Response <AddCard> addCard(HttpServletRequest httpServletRequest, @RequestBody EncryptedPaymentRequest encryptedPaymentRequest){
+        String signature = httpServletRequest.getHeader("x-signature");
+        String randomKey = httpServletRequest.getHeader("x-rnd-key");
+        AddCard addCard=domainService.addCard(encryptedPaymentRequest,signature,randomKey);
+        return new Response<>(addCard);
     }
 
     @PostMapping("/paymentCompleteRequestForTreeDSecure")
@@ -70,6 +89,8 @@ public class DomainController {
         TreeDSecureResponse treeDSecureResponse = domainService.paymentCompleteRequestForTreeDSecure(encryptedPaymentRequest,signature,randomKey);
         return new Response<>(treeDSecureResponse);
     }
+
+
 
 
 

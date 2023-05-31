@@ -3,6 +3,8 @@ package com.saupay.userservice.controller;
 import com.saupay.userservice.dto.UserDto;
 import com.saupay.userservice.request.UserLoginRequest;
 import com.saupay.userservice.request.UserRegisterRequest;
+import com.saupay.userservice.response.RegisterResponse;
+import com.saupay.userservice.response.Response;
 import com.saupay.userservice.service.UserService;
 import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserRegisterRequest userRequest){
+    public ResponseEntity<RegisterResponse> registerUser(@Valid @RequestBody UserRegisterRequest userRequest){
         return ResponseEntity.ok(userService.registerUser(userRequest));
     }
 
