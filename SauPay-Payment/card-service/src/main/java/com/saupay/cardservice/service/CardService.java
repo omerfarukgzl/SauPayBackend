@@ -37,12 +37,22 @@ public class CardService {
     }
 
     public CardDto createCard(CreateCardRequest createCardRequest) {
+        System.out.println("Create Card Service");
         BankCard bankCard = bankCardRepository.findByBinNumber(createCardRequest.getBinNumber()).orElseThrow(() -> new CardNotFoundException("Bank card could not found by bin number: " + createCardRequest.getBinNumber()));
         Bank bank = bankRepository.findByBankCode(bankCard.getBankCode()).orElseThrow(() -> new CardNotFoundException("Bank could not found by bank code: " + bankCard.getBankCode()));
         Card card = new Card(createCardRequest.getCardNumber(), bankCard.getBinNumber(), createCardRequest.getCardHolderName(),
                 createCardRequest.getCardCvv(), createCardRequest.getCardExpireDate(), bankCard.getCardType(), createCardRequest.getUserId(),
                 bank.getBankCode(), bankCard.getId());
-        return cardDtoConverter.convert(cardRepository.save(card));
+        CardDto cardDto= cardDtoConverter.convert(cardRepository.save(card));
+        System.out.println("Created Card" + cardDto.getCardNumber()
+        + " " + cardDto.getCardHolderName()
+        + " " + cardDto.getCardExpireDate()
+        + " " + cardDto.getCardCvv()
+        + " " + cardDto.getCardType()
+        + " " + cardDto.getBinNumber()
+        + " " + cardDto.getBankCode()
+        + " " + cardDto.getUserId());
+        return cardDto;
     }
 
     public CardDto findCardById(String id){

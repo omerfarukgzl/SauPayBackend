@@ -132,14 +132,25 @@ public class DomainService {
                         + "Email" + addCardRequest.getEmail());
 
                 UserDto userDto = userServiceClient.getUserByUserEmail(addCardRequest.getEmail()).getBody();
+                System.out.println("Find User ID" + userDto.getId()
+                        + "Email" + userDto.getCustomerEmail()
+                        + "Name" + userDto.getCustomerName()
+                        + "Surname" + userDto.getCustomerSurname()
+                        + "Phone" + userDto.getCustomerPhone()
+                        + "Tc" + userDto.getCustomerTC());
 
                 CreateCardRequest createCardRequest = new CreateCardRequest();
                 createCardRequest.setCardNumber(addCardRequest.getCardNumber());
+                createCardRequest.setBinNumber(addCardRequest.getBinNumber().toString());
                 createCardRequest.setCardHolderName(addCardRequest.getCardHolderName());
                 createCardRequest.setCardExpireDate(addCardRequest.getCardExpireDate());
                 createCardRequest.setCardCvv(addCardRequest.getCardCvv());
                 createCardRequest.setUserId(userDto.getId());
                 CardDto cardDto = cardServiceClient.createCard(createCardRequest).getBody();
+                if (cardDto == null) {
+                    throw new GeneralException("Kart Eklenemedi", "404");
+                }
+                System.out.println("basarili card ekleme");
 
                 return new AddCard(true);
             }
@@ -220,15 +231,18 @@ public class DomainService {
 
         return transactions;
     }
-    public Transaction_MerchantsDto getTransaction_MerchantByUserId(String userId){
-
+    public Transaction_MerchantsDto getTransaction_MerchantByUserEmail(String email){
+        System.out.println("Email"+email);
+        UserDto userDto=userServiceClient.getUserByUserEmail(email).getBody();
+        System.out.println("User ID"+userDto.getId());
         Transaction_MerchantsDto transactions = new Transaction_MerchantsDto();
         transactions.setTransactions(new ArrayList<>());
 
-        List<CardDto> cardDtoList = getCardsUser(userId);
+        List<CardDto> cardDtoList = getCardsUser(userDto.getId());
         if (cardDtoList.isEmpty()){
             throw new GeneralException("There is no card for this user","400");
         }
+        System.out.println("CardDtoList"+cardDtoList.get(0).getId());
 
         for (CardDto cardDto : cardDtoList) {
             transactions.getTransactions().addAll(getTransactionMerchantByCardId(cardDto.getId()).getTransactions());
@@ -236,6 +250,7 @@ public class DomainService {
         if(transactions.getTransactions().isEmpty()){
             throw  new GeneralException("There is no transaction for this user","404");
         }
+
 
         return transactions;
     }

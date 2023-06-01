@@ -110,9 +110,9 @@ public class DomainController {
     public Response<TransactionsDto> getTransactionByUserId(@PathVariable(value = "userId") String userId){
         return new Response<>(domainService.getTransactionByUserId(userId));
     }
-    @GetMapping("/getTransactionMerchantByUserId/{userId}")
-    public Response <Transaction_MerchantsDto> getTransactionMerchantByUserId(@PathVariable(value = "userId") String userId){
-        return new Response<>(domainService.getTransaction_MerchantByUserId(userId));
+    @GetMapping("/getTransactionMerchantByUserEmail/{email}")
+    public Response <Transaction_MerchantsDto> getTransactionMerchantByUserEmail(@PathVariable(value = "email") String email){
+        return new Response<>(domainService.getTransaction_MerchantByUserEmail(email));
     }
 
     @PostMapping("/getTransactionMerchantByToken")

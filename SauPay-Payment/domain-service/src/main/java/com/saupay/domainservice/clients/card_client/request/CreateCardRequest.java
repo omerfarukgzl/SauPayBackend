@@ -12,7 +12,7 @@ import lombok.Setter;
 public class CreateCardRequest {
     private String userId;
     private String cardNumber;
-    private Integer binNumber;
+    private String binNumber;
     private String cardHolderName;
     private String cardCvv;
     private String cardExpireDate;
