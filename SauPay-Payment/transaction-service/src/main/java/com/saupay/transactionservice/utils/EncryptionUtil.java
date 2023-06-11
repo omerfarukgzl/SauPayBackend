@@ -10,8 +10,6 @@ import java.security.MessageDigest;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
-
-
 @Component
 public class EncryptionUtil {
     public String encrypt(String data,String secret_Key){
@@ -39,7 +37,6 @@ public class EncryptionUtil {
             return "Decrypting Error";
         }
     }
-
     public String signature( String randomKey, String encryptedData,String secretKey) {
         try {
             String concatenatedString =  secretKey + randomKey + encryptedData;
@@ -52,7 +49,6 @@ public class EncryptionUtil {
             return "Signature Error";
         }
     }
-
     public Boolean checkSignature(String signature,String randomKey,String encryptedPaymentRequest,String secretKey){
 
         System.out.println("hepsi: " + signature + " " + randomKey );

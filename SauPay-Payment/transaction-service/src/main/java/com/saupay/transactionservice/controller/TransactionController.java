@@ -5,7 +5,9 @@ import com.saupay.transactionservice.dto.Transaction_MerchantDto;
 import com.saupay.transactionservice.dto.Transaction_MerchantsDto;
 import com.saupay.transactionservice.dto.TransactionsDto;
 import com.saupay.transactionservice.model.Transaction;
+import com.saupay.transactionservice.request.BankRequest;
 import com.saupay.transactionservice.request.EncryptedPaymentRequest;
+import com.saupay.transactionservice.response.PaymentBankResponse;
 import com.saupay.transactionservice.response.TreeDSecureResponse;
 import com.saupay.transactionservice.service.TransactionService;
 import org.springframework.http.ResponseEntity;
@@ -78,6 +80,15 @@ public class TransactionController {
     ResponseEntity<TreeDSecureResponse> getTreeDSecureResponse(@PathVariable String token){
         return ResponseEntity.ok(transactionService.getTreeDSecureResponse(token));
     }
+
+    @PostMapping("/paymentBank")
+    public ResponseEntity<PaymentBankResponse> paymentBank(@RequestBody String decryptedData){
+/*        String signature = request.getHeader("x-signature");
+        String randomKey = request.getHeader("x-rnd-key");*/
+        return ResponseEntity.ok(transactionService.paymentBank(decryptedData));
+    }
+
+
 
 
 }

@@ -9,6 +9,7 @@ import com.saupay.domainservice.clients.transaction_client.dto.Transaction_Merch
 import com.saupay.domainservice.clients.transaction_client.dto.TransactionsDto;
 import com.saupay.domainservice.clients.user_client.UserDto;
 import com.saupay.domainservice.response.AddCard;
+import com.saupay.domainservice.response.PaymentBankResponse;
 import com.saupay.domainservice.response.Response;
 import com.saupay.domainservice.response.TreeDSecureResponse;
 import com.saupay.domainservice.service.DomainService;
@@ -125,6 +126,18 @@ public class DomainController {
         System.out.println("signature: " + signature);
         System.out.println("randomKey: " + randomKey);
         return new Response<>(domainService.getTransaction_MerchantByToken(signature,randomKey,encryptedPaymentRequest));
+    }
+
+
+    @PostMapping("/paymentBank")
+    public Response<PaymentBankResponse> paymentBank(HttpServletRequest request, @RequestBody EncryptedPaymentRequest encryptedPaymentRequest){
+
+        System.out.println("PaymentBankController: " + "merhaaba");
+
+        System.out.println("encryptedPaymentRequest: " + encryptedPaymentRequest);
+        String signature = request.getHeader("x-signature");
+        String randomKey = request.getHeader("x-rnd-key");
+        return new Response <>(domainService.paymentBank(encryptedPaymentRequest,signature,randomKey));
     }
 
 

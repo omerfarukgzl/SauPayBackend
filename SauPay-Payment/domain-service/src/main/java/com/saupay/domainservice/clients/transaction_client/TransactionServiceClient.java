@@ -1,9 +1,12 @@
 package com.saupay.domainservice.clients.transaction_client;
 
+import com.saupay.domainservice.clients.request.BankRequest;
+import com.saupay.domainservice.clients.request.EncryptedPaymentRequest;
 import com.saupay.domainservice.clients.transaction_client.dto.TransactionDto;
 import com.saupay.domainservice.clients.transaction_client.dto.Transaction_MerchantDto;
 import com.saupay.domainservice.clients.transaction_client.dto.Transaction_MerchantsDto;
 import com.saupay.domainservice.clients.transaction_client.dto.TransactionsDto;
+import com.saupay.domainservice.response.PaymentBankResponse;
 import com.saupay.domainservice.response.TreeDSecureResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -44,5 +47,8 @@ public interface TransactionServiceClient {
 
     @GetMapping("/getTreeDSecureResponse/{token}")
     ResponseEntity<TreeDSecureResponse> getTreeDSecureResponse(@PathVariable String token);
+
+    @PostMapping("/paymentBank")
+    ResponseEntity<PaymentBankResponse> paymentBank(@RequestBody String decryptedData);
 
 }

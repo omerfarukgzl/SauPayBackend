@@ -11,18 +11,24 @@ import com.saupay.transactionservice.exception.TransacitonNotFoundException;
 import com.saupay.transactionservice.model.Merchant;
 import com.saupay.transactionservice.model.Transaction;
 import com.saupay.transactionservice.repository.TransactionRepository;
+import com.saupay.transactionservice.request.BankRequest;
 import com.saupay.transactionservice.request.EncryptedPaymentRequest;
 import com.saupay.transactionservice.request.PaymentRequest;
+import com.saupay.transactionservice.response.PaymentBankResponse;
 import com.saupay.transactionservice.response.TreeDSecureResponse;
 import com.saupay.transactionservice.utils.AndroidBackendCommuication;
 import com.saupay.transactionservice.utils.BackendBackendCommunication;
 import com.saupay.transactionservice.utils.EncryptionUtil;
+import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.saupay.transactionservice.utils.Constants.SECRET_KEY_BACKEND_BANK;
+import static com.saupay.transactionservice.utils.Constants.SECRET_KEY_BACKEND_MERCHANT;
 
 @Service
 public class TransactionService {
@@ -101,7 +107,7 @@ public class TransactionService {
 
     public String generatePaymentToken(EncryptedPaymentRequest encryptedPaymentRequest, String signature, String randomKey){
         /****   Backend-Backend   ****/
-        String decryptedData = backendBackendCommunication.getBackendToBackendEncryptedAndSignatureDataTransaction(encryptedPaymentRequest, signature, randomKey);
+        String decryptedData = backendBackendCommunication.getBackendToBackendEncryptedAndSignatureDataTransaction(encryptedPaymentRequest, signature, randomKey,SECRET_KEY_BACKEND_MERCHANT);
 
         String token =  encryptionUtil.generateRandomKey();
         System.out.println("Token Response-Backend: " + token );
@@ -113,7 +119,7 @@ public class TransactionService {
             e.printStackTrace();
         }
 
-        String encryptedAndToken = backendBackendCommunication.sendBackendToBackendEncryptedDataTransaction(token);
+        String encryptedAndToken = backendBackendCommunication.sendBackendToBackendEncryptedDataTransaction(token,SECRET_KEY_BACKEND_MERCHANT);
 
         return encryptedAndToken;
     }
@@ -121,6 +127,37 @@ public class TransactionService {
     public TreeDSecureResponse getTreeDSecureResponse(String token){
         return transactionRepository.findTreeDSecureResponseByToken(token);
     }
+
+    public PaymentBankResponse paymentBank(/*EncryptedPaymentRequest encryptedPaymentRequest, String signature, String randomKey*/ String decryptedData){
+
+     /*   *//****   Android-Backend   ****//*
+
+        String decryptedData = androidBackendCommuication.AndroidToBackendEncryptedAndSignatureDataTransaction(encryptedPaymentRequest, signature, randomKey);
+
+        *//****   Backend-Backend   ****//*
+        String rndmKey = encryptionUtil.generateRandomKey();
+        String encryptedAndSignatureTokenResponse = backendBackendCommunication.SendBackendToBackendEncryptedAndSignatureDataPayment(decryptedData,rndmKey,SECRET_KEY_BACKEND_BANK);
+        String decryptedTokenResponse = backendBackendCommunication.GetBackendToBackendSignatureDataPayment(encryptedAndSignatureTokenResponse,SECRET_KEY_BACKEND_BANK);
+*/
+
+        System.out.println("PaymentBankMService-Backend: " + decryptedData);
+
+       // String decypted = backendBackendCommunication.GetBackendToBackendSignatureDataPayment(decryptedData.getData(),SECRET_KEY_BACKEND_MERCHANT);
+
+        String rndmKey = encryptionUtil.generateRandomKey();
+        String encryptedAndSignatureTokenResponse = backendBackendCommunication.SendBackendToBackendEncryptedAndSignatureDataPayment(decryptedData,rndmKey,SECRET_KEY_BACKEND_BANK);
+        String decyptedResponse = backendBackendCommunication.GetBackendToBackendSignatureDataPayment(encryptedAndSignatureTokenResponse,SECRET_KEY_BACKEND_BANK);
+
+        System.out.println("BankResponse-Backend: " + decyptedResponse);
+
+        PaymentBankResponse paymentBankResponse = new PaymentBankResponse();
+        paymentBankResponse.setSuccess(true);
+        return paymentBankResponse;
+    }
+
+
+
+
 
     /*        Transaction transaction = getTransactionByToken(token);
         transaction.setStatus(true);

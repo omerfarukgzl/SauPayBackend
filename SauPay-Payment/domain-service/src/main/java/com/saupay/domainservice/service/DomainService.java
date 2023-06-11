@@ -15,6 +15,7 @@ import com.saupay.domainservice.clients.user_client.UserDto;
 import com.saupay.domainservice.clients.user_client.UserServiceClient;
 import com.saupay.domainservice.exception.GeneralException;
 import com.saupay.domainservice.response.AddCard;
+import com.saupay.domainservice.response.PaymentBankResponse;
 import com.saupay.domainservice.response.TreeDSecureResponse;
 import com.saupay.domainservice.utils.AndroidBackendCommuication;
 import com.saupay.domainservice.utils.BackendBackendCommunication;
@@ -274,6 +275,20 @@ public class DomainService {
         } catch (Exception e) {
             throw new GeneralException("There is no transaction for this user","404");
         }
+    }
+
+    public PaymentBankResponse paymentBank(EncryptedPaymentRequest encryptedPaymentRequest, String signature, String randomKey){
+        System.out.println("PaymentBankService");
+        String decryptedData = androidBackendCommuication.AndroidToBackendEncryptedAndSignatureDataTransaction(encryptedPaymentRequest, signature, randomKey);
+        try {
+            BankRequest bankRequest = objectMapper.readValue(decryptedData, BankRequest.class);
+            System.out.println("PaymentTokenObjectMapper: " + decryptedData);
+            return transactionServiceClient.paymentBank(decryptedData).getBody();
+        } catch (Exception e) {
+            throw new GeneralException("There is no transaction for this user","404");
+        }
+
+
     }
 
 
