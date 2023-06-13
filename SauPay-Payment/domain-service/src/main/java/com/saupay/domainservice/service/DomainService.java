@@ -283,7 +283,14 @@ public class DomainService {
         try {
             BankRequest bankRequest = objectMapper.readValue(decryptedData, BankRequest.class);
             System.out.println("PaymentTokenObjectMapper: " + decryptedData);
-            return transactionServiceClient.paymentBank(decryptedData).getBody();
+            PaymentBankResponse response= transactionServiceClient.paymentBank(decryptedData).getBody();
+
+            Transaction transaction=transactionServiceClient.getTransactionByToken(bankRequest.getToken()).getBody();
+            transaction.setStatus(true);
+            Transaction updateTransaction= transactionServiceClient.updateTransaction(transaction).getBody();
+            System.out.println("Update Transaction ID"+updateTransaction.getId() + "User ID"+updateTransaction.getUserId()+ "Token"+updateTransaction.getToken()
+                    +"Amount"+updateTransaction.getAmount()+"Status"+updateTransaction.getStatus());
+            return response;
         } catch (Exception e) {
             throw new GeneralException("There is no transaction for this user","404");
         }
