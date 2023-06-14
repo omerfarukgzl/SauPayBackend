@@ -1,5 +1,6 @@
 package com.saupay.transactionservice.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.saupay.transactionservice.dto.TransactionDto;
 import com.saupay.transactionservice.dto.Transaction_MerchantDto;
@@ -145,13 +146,16 @@ public class TransactionService {
        // String decypted = backendBackendCommunication.GetBackendToBackendSignatureDataPayment(decryptedData.getData(),SECRET_KEY_BACKEND_MERCHANT);
 
         String rndmKey = encryptionUtil.generateRandomKey();
-        String encryptedAndSignatureTokenResponse = backendBackendCommunication.SendBackendToBackendEncryptedAndSignatureDataPayment(decryptedData,rndmKey,SECRET_KEY_BACKEND_BANK);
-        String decyptedResponse = backendBackendCommunication.GetBackendToBackendSignatureDataPayment(encryptedAndSignatureTokenResponse,SECRET_KEY_BACKEND_BANK);
-
-        System.out.println("BankResponse-Backend: " + decyptedResponse);
-
+        String response = backendBackendCommunication.SendBackendToBackendEncryptedAndSignatureDataPayment(decryptedData,rndmKey,SECRET_KEY_BACKEND_BANK);
+        //String decyptedResponse = backendBackendCommunication.GetBackendToBackendSignatureDataPayment(encryptedAndSignatureTokenResponse,SECRET_KEY_BACKEND_BANK);
+        System.out.println("BankResponse-Backend: " + response);
         PaymentBankResponse paymentBankResponse = new PaymentBankResponse();
-        paymentBankResponse.setSuccess(true);
+        try {
+            paymentBankResponse = objectMapper.readValue(response,PaymentBankResponse.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+/*        paymentBankResponse.setSuccess(true);*/
         return paymentBankResponse;
     }
 

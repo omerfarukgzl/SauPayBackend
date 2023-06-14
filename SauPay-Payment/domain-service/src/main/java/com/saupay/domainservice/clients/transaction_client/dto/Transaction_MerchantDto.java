@@ -12,12 +12,17 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Transaction_MerchantDto {
+public class Transaction_MerchantDto implements Comparable<Transaction_MerchantDto>{
     private String merchantName;
     private BigDecimal amount;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonProperty("date")
     private Timestamp localDateTime;
+
+    @Override
+    public int compareTo(Transaction_MerchantDto o) {
+        return this.localDateTime.compareTo(o.localDateTime);
+    }
 
 }

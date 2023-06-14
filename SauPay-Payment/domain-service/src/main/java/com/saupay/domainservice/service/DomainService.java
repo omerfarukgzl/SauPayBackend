@@ -20,10 +20,13 @@ import com.saupay.domainservice.response.TreeDSecureResponse;
 import com.saupay.domainservice.utils.AndroidBackendCommuication;
 import com.saupay.domainservice.utils.BackendBackendCommunication;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -37,15 +40,18 @@ public class DomainService {
     private final BackendBackendCommunication backendBackendCommunication;
     private final AndroidBackendCommuication androidBackendCommuication;
 
+    private final KafkaTemplate<String, String> kafkaTemplate;
+
 
    // List<Transaction_MerchantDto> transactions = new ArrayList<>();
-    public DomainService(CardServiceClient cardServiceClient, UserServiceClient userServiceClient, TransactionServiceClient transactionServiceClient, ObjectMapper objectMapper, BackendBackendCommunication backendBackendCommunication, AndroidBackendCommuication androidBackendCommuication) {
+    public DomainService(CardServiceClient cardServiceClient, UserServiceClient userServiceClient, TransactionServiceClient transactionServiceClient, ObjectMapper objectMapper, BackendBackendCommunication backendBackendCommunication, AndroidBackendCommuication androidBackendCommuication, KafkaTemplate<String, String> kafkaTemplate) {
         this.cardServiceClient = cardServiceClient;
         this.userServiceClient = userServiceClient;
         this.transactionServiceClient = transactionServiceClient;
         this.objectMapper = objectMapper;
         this.backendBackendCommunication = backendBackendCommunication;
         this.androidBackendCommuication = androidBackendCommuication;
+        this.kafkaTemplate = kafkaTemplate;
     }
     public UserDto getUser(String userId){
         return userServiceClient.getUser(userId).getBody();
@@ -245,9 +251,13 @@ public class DomainService {
         }
         System.out.println("CardDtoList"+cardDtoList.get(0).getId());
 
+        Comparator<Transaction_MerchantDto> dateComparator = Comparator.comparing(Transaction_MerchantDto::getLocalDateTime);
+        List <Transaction_MerchantDto> transaction_merchantDtoList = new ArrayList<>();
         for (CardDto cardDto : cardDtoList) {
-            transactions.getTransactions().addAll(getTransactionMerchantByCardId(cardDto.getId()).getTransactions());
+            transaction_merchantDtoList .addAll(getTransactionMerchantByCardId(cardDto.getId()).getTransactions());
         }
+        transaction_merchantDtoList.sort(dateComparator.reversed());
+        transactions.getTransactions().addAll(transaction_merchantDtoList);
         if(transactions.getTransactions().isEmpty()){
             throw  new GeneralException("There is no transaction for this user","404");
         }
@@ -290,6 +300,11 @@ public class DomainService {
             Transaction updateTransaction= transactionServiceClient.updateTransaction(transaction).getBody();
             System.out.println("Update Transaction ID"+updateTransaction.getId() + "User ID"+updateTransaction.getUserId()+ "Token"+updateTransaction.getToken()
                     +"Amount"+updateTransaction.getAmount()+"Status"+updateTransaction.getStatus());
+
+            String notificationMessage = "Dear customer \n Your account create transaction has been succeed. Your amount info is %s";
+            String senderMessage = String.format(notificationMessage,transaction.getAmount());
+            kafkaTemplate.send("transfer-notification",  senderMessage);
+
             return response;
         } catch (Exception e) {
             throw new GeneralException("There is no transaction for this user","404");
